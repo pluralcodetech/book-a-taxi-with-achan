@@ -6,20 +6,32 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-
+    interface AchanModal {
+    }
 }
 declare global {
+    interface HTMLAchanModalElement extends Components.AchanModal, HTMLStencilElement {
+    }
+    var HTMLAchanModalElement: {
+        prototype: HTMLAchanModalElement;
+        new (): HTMLAchanModalElement;
+    };
     interface HTMLElementTagNameMap {
+        "achan-modal": HTMLAchanModalElement;
     }
 }
 declare namespace LocalJSX {
+    interface AchanModal {
+    }
     interface IntrinsicElements {
+        "achan-modal": AchanModal;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "achan-modal": LocalJSX.AchanModal & JSXBase.HTMLAttributes<HTMLAchanModalElement>;
         }
     }
 }
