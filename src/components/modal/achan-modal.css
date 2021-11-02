@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.modal-container {
+    background-color: rgba(0,0,0,0.75);
+}
+
+.custom-tabs-btn {
+    width: 48%;
+}
+
+#tabs > button.custom-active, #tabs > button:hover {
+    background: #0646A2;
+    color: #fff;
+}
