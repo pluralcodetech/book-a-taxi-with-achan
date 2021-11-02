@@ -9,6 +9,18 @@
     <script nomodule src="/build/book-a-taxi-with-achan.js"></script>
   </head>
   <body>
+    <button id="achan-modal-btn">Open Menu</button>
     <achan-modal>Hello, Sammy!</achan-modal>
+    
+    <script>
+      const modalButton = document.querySelector('#achan-modal-btn');
+      const achanModal = document.querySelector('achan-modal');
+      modalButton.addEventListener('click', () => {
+        if (!achanModal.opened) {
+          console.log('Opening modal...')
+          achanModal.opened = true;
+        }
+      })
+    </script>
   </body>
 </html>

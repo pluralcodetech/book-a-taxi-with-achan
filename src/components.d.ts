@@ -7,6 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface AchanModal {
+        "opened": boolean;
     }
 }
 declare global {
@@ -22,6 +23,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AchanModal {
+        "opened"?: boolean;
     }
     interface IntrinsicElements {
         "achan-modal": AchanModal;
