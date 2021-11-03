@@ -10,6 +10,17 @@ export namespace Components {
         "opened": boolean;
         "previousBtn": string;
     }
+    interface ModalBookingDetails {
+        "date1": string | number;
+        "date2": string | number;
+        "dottedLines": string;
+        "estimatedPrice": number;
+        "from": string;
+        "location1": string;
+        "location2": string;
+        "time1": string | number;
+        "time2": string | number;
+    }
 }
 declare global {
     interface HTMLAchanModalElement extends Components.AchanModal, HTMLStencilElement {
@@ -18,8 +29,15 @@ declare global {
         prototype: HTMLAchanModalElement;
         new (): HTMLAchanModalElement;
     };
+    interface HTMLModalBookingDetailsElement extends Components.ModalBookingDetails, HTMLStencilElement {
+    }
+    var HTMLModalBookingDetailsElement: {
+        prototype: HTMLModalBookingDetailsElement;
+        new (): HTMLModalBookingDetailsElement;
+    };
     interface HTMLElementTagNameMap {
         "achan-modal": HTMLAchanModalElement;
+        "modal-booking-details": HTMLModalBookingDetailsElement;
     }
 }
 declare namespace LocalJSX {
@@ -27,8 +45,20 @@ declare namespace LocalJSX {
         "opened"?: boolean;
         "previousBtn"?: string;
     }
+    interface ModalBookingDetails {
+        "date1"?: string | number;
+        "date2"?: string | number;
+        "dottedLines"?: string;
+        "estimatedPrice"?: number;
+        "from"?: string;
+        "location1"?: string;
+        "location2"?: string;
+        "time1"?: string | number;
+        "time2"?: string | number;
+    }
     interface IntrinsicElements {
         "achan-modal": AchanModal;
+        "modal-booking-details": ModalBookingDetails;
     }
 }
 export { LocalJSX as JSX };
@@ -36,6 +66,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "achan-modal": LocalJSX.AchanModal & JSXBase.HTMLAttributes<HTMLAchanModalElement>;
+            "modal-booking-details": LocalJSX.ModalBookingDetails & JSXBase.HTMLAttributes<HTMLModalBookingDetailsElement>;
         }
     }
 }

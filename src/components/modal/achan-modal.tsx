@@ -220,7 +220,7 @@ export class AchhanModal {
                             {this.showFormContent ? (
                                 <img 
                                   onClick={this.previousChange.bind(this)}  
-                                  class="mr-4" 
+                                  class="mr-6" 
                                   src={getAssetPath(`../assets/${this.previousBtn}`)} 
                                   alt="previous-icon"/>
                               ) : null 
@@ -262,6 +262,12 @@ export class AchhanModal {
                             </main>
                           </div>
                         ) : null}
+
+                        {this.showFormContent ? (
+                          <div class="p-4">
+                            <modal-booking-details></modal-booking-details>
+                          </div>
+                        ): null}
 
                     </div>
                         
