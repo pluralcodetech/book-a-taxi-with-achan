@@ -1,9 +1,10 @@
-import { Component, h, Prop, State } from '@stencil/core';
+import { Component, getAssetPath, h, Prop, State } from '@stencil/core';
 
 @Component({
   tag: 'achan-modal',
   styleUrl: 'achan-modal.css',
-  shadow: true
+  shadow: true,
+  assetsDirs: ['assets'],
 })
 
 
@@ -11,6 +12,8 @@ import { Component, h, Prop, State } from '@stencil/core';
 // w-auto items-center
 export class AchhanModal {
     @State() showTripsContent = false;
+    @State() showFormContent = false;
+    @Prop() previousBtn = 'arrow-left.svg'
     @Prop({ reflect: true, mutable: true}) opened: boolean;
 
     closeModal() {
@@ -20,6 +23,14 @@ export class AchhanModal {
 
     onContentChange(content: string){
         this.showTripsContent = content === 'roundTrip'
+    }
+
+    onBookChange() {
+      this.showFormContent = true;
+    }
+
+    previousChange() {
+      this.showFormContent = false;
     }
 
   render() {
@@ -105,7 +116,10 @@ export class AchhanModal {
                   <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"  />
                 </div>
               </div>
-              <button type="button" class="text-center mt-6 w-full border-0 p-3 outline-none focus:outline-none custom-book-btn">Book Now</button>
+              <button 
+                type="button" 
+                onClick={this.onBookChange.bind(this)}  
+                class="text-center mt-6 w-full border-0 p-3 outline-none focus:outline-none custom-book-btn">Book Now</button>
             </form>
         )
       }
@@ -183,13 +197,14 @@ export class AchhanModal {
               </div>
             </div>
             
-            <button type="button" class="text-center mt-10 w-full border-0 p-3 outline-none focus:outline-none custom-book-btn">Book Now</button>
+            <button 
+              type="button" 
+              onClick={this.onBookChange.bind(this)}  
+              class="text-center mt-10 w-full border-0 p-3 outline-none focus:outline-none custom-book-btn">Book Now</button>
           </form>
         
         )
       }
-
-
 
     // Display all Modal Content
       let modalContent = null;
@@ -201,36 +216,53 @@ export class AchhanModal {
                     <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                         {/*header*/}
                         <div class="flex items-center  justify-between p-4 border-b border-solid border-blueGray-200 rounded-t">
-                        <h4 class="text-xl font-semibold text-blue-600 text-center">
-                            Book a Taxi
-                        </h4>
-                        <button onClick={this.closeModal.bind(this)} class="text-gray-400 p-1 ml-auto bg-transparent border-0 outline-none focus:outline-none">x</button>
+                          <div class="flex">
+                            {this.showFormContent ? (
+                                <img 
+                                  onClick={this.previousChange.bind(this)}  
+                                  class="mr-4" 
+                                  src={getAssetPath(`../assets/${this.previousBtn}`)} 
+                                  alt="previous-icon"/>
+                              ) : null 
+                            }
+                            
+                            <h4 class="text-xl font-semibold text-blue-600 text-center">
+                                Book a Taxi
+                            </h4>
+                          </div>
+                          <button onClick={this.closeModal.bind(this)} class="text-gray-400 p-1 ml-auto bg-transparent border-0 outline-none focus:outline-none">x</button>
                         </div>
                         {/*body*/}
+                        {/* Form Sections and Navigation Buttons */}
+                        {/* {displayForms} */}
 
-                        {/* Tab Section */}
-                        <section id="tabs" class='px-4 mt-10 mb-2 flex justify-between w-full'>
-                            <button 
+                        {!this.showFormContent ? (
+                          <div>
+                            <section id="tabs" class='px-4 mt-10 mb-2 flex justify-between w-full'>
+                              <button 
                                 onClick={this.onContentChange.bind(this, 'oneWay' )} 
                                 class={!this.showTripsContent ? "text-center border-2 p-3 outline-none focus:outline-none custom-tabs-btn custom-active" 
                                     : "text-center border-2 p-3 outline-none focus:outline-none custom-tabs-btn"}
                                     >
                                         Round Trip
-                                </button>
-                            <button 
+                              </button>
+                              <button 
                                 onClick={this.onContentChange.bind(this, 'roundTrip')} 
                                 class={this.showTripsContent ? "text-center border-2 p-3 outline-none focus:outline-none custom-tabs-btn custom-active" 
                                     : "text-center border-2 p-3 outline-none focus:outline-none custom-tabs-btn"}
                                 >
                                     One Way
-                            </button>
-                        </section>
-                         {/* End of Tab Section */}
+                              </button>
+                            </section>
+                            {/* End of Tab Section */}
 
-                        <main>
-                            {roadTripContent}
-                            {oneWayContent}
-                        </main>
+                            <main>
+                                {roadTripContent}
+                                {oneWayContent}
+                            </main>
+                          </div>
+                        ) : null}
+
                     </div>
                         
                 </div>
