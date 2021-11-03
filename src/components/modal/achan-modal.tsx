@@ -266,6 +266,15 @@ export class AchhanModal {
                         {this.showFormContent ? (
                           <div class="p-4">
                             <modal-booking-details></modal-booking-details>
+
+                            <div class="flex flex-col  space-y-6">
+                              <button 
+                                type="button"  
+                                class="text-center mt-10 w-full border border-blue-600 p-3 outline-none  hover:border-0 hover:bg-blue-600 text-blue-800 hover:text-white focus:outline-none ">Continue Book</button>
+                              <button 
+                                type="button" 
+                                class="text-center mt-10 w-full border border-blue-600 p-3 outline-none hover:border-0 hover:bg-blue-600 text-blue-800 hover:text-white focus:outline-none ">Cancel</button>
+                            </div>
                           </div>
                         ): null}
 
