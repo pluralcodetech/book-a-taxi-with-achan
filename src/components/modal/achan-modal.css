@@ -18,8 +18,12 @@
     color: #fff;
 }
 
+.confirmBooking-h3,
 .customBookingDetails-btn2{
     color: #0646A2;
+}
+
+.customBookingDetails-btn2{
     border-color: #0646A2;
 }
 

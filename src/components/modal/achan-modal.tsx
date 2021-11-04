@@ -12,7 +12,10 @@ import { Component, getAssetPath, h, Prop, State } from '@stencil/core';
 // w-auto items-center
 export class AchhanModal {
     @State() showTripsContent = false;
+    @State() showTitleText = true;
     @State() showFormContent = false;
+    @State() bookingDetails = false;
+    @State() confirmBooking = false;
     @Prop() previousBtn = 'arrow-left.svg'
     @Prop({ reflect: true, mutable: true}) opened: boolean;
 
@@ -27,10 +30,26 @@ export class AchhanModal {
 
     onBookChange() {
       this.showFormContent = true;
+      this.bookingDetails = true;
     }
 
     previousChange() {
       this.showFormContent = false;
+      this.bookingDetails = false;
+      this.confirmBooking = false;
+    }
+
+    openConfirmBooking() {
+      this.showTitleText = false;
+      this.showFormContent = true;
+      this.bookingDetails = false;
+      this.confirmBooking = true;
+    }
+
+    cabTicket() {
+      this.showFormContent = true;
+      this.bookingDetails = false;
+      this.confirmBooking = false;
     }
 
   render() {
@@ -217,7 +236,7 @@ export class AchhanModal {
                         {/*header*/}
                         <div class="flex items-center  justify-between p-4 border-b border-solid border-blueGray-200 rounded-t">
                           <div class="flex">
-                            {this.showFormContent ? (
+                            {this.bookingDetails ? (
                                 <img 
                                   onClick={this.previousChange.bind(this)}  
                                   class="mr-6" 
@@ -226,9 +245,12 @@ export class AchhanModal {
                               ) : null 
                             }
                             
-                            <h4 class="text-xl font-semibold text-blue-600 text-center">
-                                Book a Taxi
-                            </h4>
+                            {this.showTitleText ? (
+                              <h4 class="text-xl font-semibold text-blue-600 text-center">
+                                  Book a Taxi
+                              </h4>
+                            ) : null}
+                            
                           </div>
                           <button onClick={this.closeModal.bind(this)} class="text-gray-400 p-1 ml-auto bg-transparent border-0 outline-none focus:outline-none">x</button>
                         </div>
@@ -263,20 +285,39 @@ export class AchhanModal {
                           </div>
                         ) : null}
 
-                        {this.showFormContent ? (
+                        {this.bookingDetails ? (
                           <div class="p-4">
                             <modal-booking-details></modal-booking-details>
 
                             <div class="flex flex-col  space-y-6">
                               <button 
+                                onClick={this.openConfirmBooking.bind(this)}  
                                 type="button"  
                                 class="text-center mt-10 w-full border-0 p-3 outline-none focus:outline-none customBookingDetails-btn">Continue Book</button>
                               <button 
+                                onClick={this.previousChange.bind(this)}  
                                 type="button" 
                                 class="text-center mt-10 w-full border p-3 outline-none hover:border-0 focus:outline-none customBookingDetails-btn2">Cancel</button>
                             </div>
                           </div>
                         ): null}
+
+                        {/* Cofirm Booking */}
+                        {this.confirmBooking ? (
+                          <div class="px-4 py-56">
+                            <div class='text-center space-y-2'>
+                              <h3 class="font-bold text-2xl confirmBooking-h3">Booking Confirmed</h3>
+                              <div class="w-52 mx-auto">
+                                <small class="text-gray-400 text-sm">We’ve sent a copy of your ticket to your email</small>
+                              </div>
+                              
+                            </div>
+                            <button 
+                                onClick={this.cabTicket.bind(this)}  
+                                type="button"  
+                                class="text-center mt-10 w-full border-0 p-3 outline-none focus:outline-none customBookingDetails-btn">Preview Ticket</button>
+                          </div>
+                        ) : null}
 
                     </div>
                         
