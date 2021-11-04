@@ -17,6 +17,7 @@ export class AchhanModal {
     @State() bookingDetails = false;
     @State() confirmBooking = false;
     @State() cabTicket = false;
+    @State() driverDetails = false;
     @Prop() previousBtn = 'arrow-left.svg'
     @Prop() carIcon = "car-icon.png"
     @Prop() callIcon = "call-icon.png"
@@ -26,6 +27,14 @@ export class AchhanModal {
     closeModal() {
         this.opened = false;
         console.log("closing Modal...")
+
+        // other actions
+        this.showTitleText = true;
+        this.showFormContent = false;
+        this.bookingDetails = false;
+        this.confirmBooking = false;
+        this.cabTicket = false;
+        this.driverDetails = false;
     }
 
     onContentChange(content: string){
@@ -38,6 +47,7 @@ export class AchhanModal {
     }
 
     previousChange() {
+      this.showTitleText = true;
       this.showFormContent = false;
       this.bookingDetails = false;
       this.confirmBooking = false;
@@ -55,6 +65,14 @@ export class AchhanModal {
       this.bookingDetails = false;
       this.confirmBooking = false;
       this.cabTicket = true;
+    }
+
+    openDriverDetails() {
+      this.showFormContent = true;
+      this.bookingDetails = false;
+      this.confirmBooking = false;
+      this.cabTicket = false;
+      this.driverDetails = true;
     }
 
   render() {
@@ -364,12 +382,12 @@ export class AchhanModal {
                                       <small>19:00</small>
                                     </row-element>
                                     <row-element>
-                                      <small>from:</small>
+                                      <small>From:</small>
                                       <small>Lagos iKEJA</small>
                                     </row-element>
                                     <row-element>
                                       <small>Destination:</small>
-                                      <small>abule Egba</small>
+                                      <small>Abule Egba</small>
                                     </row-element>
                                   </div>
                                 </section>
@@ -395,7 +413,7 @@ export class AchhanModal {
                                     </div>
 
                                     <button 
-                                        // onClick={this.cabTicketChange.bind(this)}  
+                                      onClick={this.openDriverDetails.bind(this)}  
                                       type="button"  
                                       class="text-center w-full border-0 p-3 outline-none focus:outline-none customBookingDetails-btn">
                                       View Driver Details
@@ -410,9 +428,6 @@ export class AchhanModal {
                                       <small>estimated Total:</small>
                                       <small class="font-bold">7,900 NGN - 10,900 NGN</small>
                                     </row-element>
-
-                                    
-                                    
                                   </div>
                                 </section>
                               </main>
@@ -420,6 +435,39 @@ export class AchhanModal {
                           </div>
                         ) : null}
 
+                        {/* Driver Details */}
+                        {this.driverDetails ? (
+                          <div class="px-16 py-7">
+                            <div class="shadow-lg pb-10 w-full rounded-xl bg-white">
+                              <header class='w-full p-4 py-6 rounded-t-xl text-center cabTicket-header'>
+                                <h4 class="text-xl font-semibold">Driver Details</h4>
+                              </header>
+
+                              <main class="w-full px-6">
+                                <section class="px-6 pt-12 pb-6">
+                                  <div class="mt-10">
+                                    <row-element>
+                                      <small>Name:</small>
+                                      <small>Maver shags</small>
+                                    </row-element>
+                                    <row-element>
+                                      <small>Phone Number:</small>
+                                      <small>234455444519</small>
+                                    </row-element>
+                                    <row-element>
+                                      <small>Car No plate:</small>
+                                      <small>P47344</small>
+                                    </row-element>
+                                    <row-element>
+                                      <small>Car Model:</small>
+                                      <small>Toyota</small>
+                                    </row-element>
+                                  </div>
+                                </section>
+                              </main>
+                            </div>
+                          </div>
+                        ) : null}
                     </div>
                         
                 </div>
