@@ -10,6 +10,10 @@
     width: 48%;
 }
 
+/* .customInput{
+    width: 100%;
+} */
+
 .cabTicket-header,
 .customBookingDetails-btn2:hover,
 .customBookingDetails-btn,
@@ -39,3 +43,20 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+/*  */
+/* @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+    
+    
+    
+  }  */
+
+  /* @media only screen and (max-width: 414px) {
+   
+  }
+  @media only screen and (max-width: 768px) {
+    .custom-tabs-btn, .customInput {
+        width: 48%;
+    }
+  } */
