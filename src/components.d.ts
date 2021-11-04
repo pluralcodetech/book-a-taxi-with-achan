@@ -7,7 +7,9 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface AchanModal {
+        "callIcon": string;
         "carIcon": string;
+        "emailIcon": string;
         "opened": boolean;
         "previousBtn": string;
     }
@@ -52,7 +54,9 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AchanModal {
+        "callIcon"?: string;
         "carIcon"?: string;
+        "emailIcon"?: string;
         "opened"?: boolean;
         "previousBtn"?: string;
     }

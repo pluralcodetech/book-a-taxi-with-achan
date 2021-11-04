@@ -19,6 +19,8 @@ export class AchhanModal {
     @State() cabTicket = false;
     @Prop() previousBtn = 'arrow-left.svg'
     @Prop() carIcon = "car-icon.png"
+    @Prop() callIcon = "call-icon.png"
+    @Prop() emailIcon = "email-icon.png"
     @Prop({ reflect: true, mutable: true}) opened: boolean;
 
     closeModal() {
@@ -369,6 +371,36 @@ export class AchhanModal {
                                       <small>Destination:</small>
                                       <small>abule Egba</small>
                                     </row-element>
+                                  </div>
+                                </section>
+
+                                <section class="px-6 py-10 border-b-2 border-dashed">
+                                  <h1 class="text-xl font-semibold cabTicket-m-s-h1">Achan Customer Service</h1>
+                                  <div class="mt-10 space-y-8">
+                                    <div class="flex">
+                                      <img  
+                                        class="mr-6 " 
+                                        src={getAssetPath(`../assets/${this.callIcon}`)} 
+                                        alt="car-icon"
+                                      />
+                                      <h4 class="text-sm text-gray-400 font-semibold">234455444519</h4>
+                                    </div>
+                                    <div class="flex">
+                                      <img  
+                                        class="mr-6" 
+                                        src={getAssetPath(`../assets/${this.emailIcon}`)} 
+                                        alt="car-icon"
+                                      />
+                                      <h4 class="text-sm text-gray-400 font-semibold">achan@achan.com</h4>
+                                    </div>
+
+                                    <button 
+                                        // onClick={this.cabTicketChange.bind(this)}  
+                                      type="button"  
+                                      class="text-center w-full border-0 p-3 outline-none focus:outline-none customBookingDetails-btn">
+                                      View Driver Details
+                                    </button>
+                                    
                                   </div>
                                 </section>
                               </main>
