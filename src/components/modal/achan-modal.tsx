@@ -16,7 +16,9 @@ export class AchhanModal {
     @State() showFormContent = false;
     @State() bookingDetails = false;
     @State() confirmBooking = false;
+    @State() cabTicket = false;
     @Prop() previousBtn = 'arrow-left.svg'
+    @Prop() carIcon = "car-icon.png"
     @Prop({ reflect: true, mutable: true}) opened: boolean;
 
     closeModal() {
@@ -46,10 +48,11 @@ export class AchhanModal {
       this.confirmBooking = true;
     }
 
-    cabTicket() {
+    cabTicketChange() {
       this.showFormContent = true;
       this.bookingDetails = false;
       this.confirmBooking = false;
+      this.cabTicket = true;
     }
 
   render() {
@@ -313,9 +316,63 @@ export class AchhanModal {
                               
                             </div>
                             <button 
-                                onClick={this.cabTicket.bind(this)}  
+                                onClick={this.cabTicketChange.bind(this)}  
                                 type="button"  
                                 class="text-center mt-10 w-full border-0 p-3 outline-none focus:outline-none customBookingDetails-btn">Preview Ticket</button>
+                          </div>
+                        ) : null}
+
+                        {/* Cab Ticket */}
+                        {this.cabTicket ? (
+                          <div class="px-16 py-7"> 
+                            <div class="shadow-lg pb-10 w-full rounded-xl bg-white">
+                              <header class='w-full p-4 py-6 rounded-t-xl cabTicket-header'>
+                                <div class="flex w-full items-center  justify-center">
+                                  <img  
+                                    class="mr-6 w-6" 
+                                    src={getAssetPath(`../assets/${this.carIcon}`)} 
+                                    alt="car-icon"
+                                  />
+                                  <h4 class="text-xl font-semibold">Cab Ticket</h4>
+                                </div>
+                              </header>
+                              <main class="w-full px-6">
+                                <section class="px-6 pt-12 pb-6 border-b-2 border-dashed">
+                                  <h1 class="text-xl font-semibold cabTicket-m-s-h1">Booking Details</h1>
+
+                                  <div class="mt-10">
+                                    <row-element>
+                                      <small>Name:</small>
+                                      <small>Jacob Jones</small>
+                                    </row-element>
+                                    <row-element>
+                                      <small>phone Number:</small>
+                                      <small>234455444519</small>
+                                    </row-element>
+                                    <row-element>
+                                      <small>ticket No:</small>
+                                      <small>1P47344</small>
+                                    </row-element>
+                                    <row-element>
+                                      <small>Date:</small>
+                                      <small>21 Oct</small>
+                                    </row-element>
+                                    <row-element>
+                                      <small>Time:</small>
+                                      <small>19:00</small>
+                                    </row-element>
+                                    <row-element>
+                                      <small>from:</small>
+                                      <small>Lagos iKEJA</small>
+                                    </row-element>
+                                    <row-element>
+                                      <small>Destination:</small>
+                                      <small>abule Egba</small>
+                                    </row-element>
+                                  </div>
+                                </section>
+                              </main>
+                            </div>
                           </div>
                         ) : null}
 

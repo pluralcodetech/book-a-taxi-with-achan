@@ -10,6 +10,7 @@
     width: 48%;
 }
 
+.cabTicket-header,
 .customBookingDetails-btn2:hover,
 .customBookingDetails-btn,
 .custom-book-btn,
@@ -18,11 +19,13 @@
     color: #fff;
 }
 
+.cabTicket-m-s-h1,
 .confirmBooking-h3,
 .customBookingDetails-btn2{
     color: #0646A2;
 }
 
+.cabTicket-m-s-h1,
 .customBookingDetails-btn2{
     border-color: #0646A2;
 }

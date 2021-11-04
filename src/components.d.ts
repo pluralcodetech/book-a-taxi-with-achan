@@ -7,6 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface AchanModal {
+        "carIcon": string;
         "opened": boolean;
         "previousBtn": string;
     }
@@ -20,6 +21,8 @@ export namespace Components {
         "location2": string;
         "time1": string | number;
         "time2": string | number;
+    }
+    interface RowElement {
     }
 }
 declare global {
@@ -35,13 +38,21 @@ declare global {
         prototype: HTMLModalBookingDetailsElement;
         new (): HTMLModalBookingDetailsElement;
     };
+    interface HTMLRowElementElement extends Components.RowElement, HTMLStencilElement {
+    }
+    var HTMLRowElementElement: {
+        prototype: HTMLRowElementElement;
+        new (): HTMLRowElementElement;
+    };
     interface HTMLElementTagNameMap {
         "achan-modal": HTMLAchanModalElement;
         "modal-booking-details": HTMLModalBookingDetailsElement;
+        "row-element": HTMLRowElementElement;
     }
 }
 declare namespace LocalJSX {
     interface AchanModal {
+        "carIcon"?: string;
         "opened"?: boolean;
         "previousBtn"?: string;
     }
@@ -56,9 +67,12 @@ declare namespace LocalJSX {
         "time1"?: string | number;
         "time2"?: string | number;
     }
+    interface RowElement {
+    }
     interface IntrinsicElements {
         "achan-modal": AchanModal;
         "modal-booking-details": ModalBookingDetails;
+        "row-element": RowElement;
     }
 }
 export { LocalJSX as JSX };
@@ -67,6 +81,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "achan-modal": LocalJSX.AchanModal & JSXBase.HTMLAttributes<HTMLAchanModalElement>;
             "modal-booking-details": LocalJSX.ModalBookingDetails & JSXBase.HTMLAttributes<HTMLModalBookingDetailsElement>;
+            "row-element": LocalJSX.RowElement & JSXBase.HTMLAttributes<HTMLRowElementElement>;
         }
     }
 }
