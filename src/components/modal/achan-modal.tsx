@@ -403,6 +403,18 @@ export class AchhanModal {
                                     
                                   </div>
                                 </section>
+                                <section class="px-6 py-10 ">
+                                  <h1 class="text-xl font-semibold cabTicket-m-s-h1">Estimated cost</h1>
+                                  <div class="mt-10 space-y-8">
+                                    <row-element>
+                                      <small>estimated Total:</small>
+                                      <small class="font-bold">7,900 NGN - 10,900 NGN</small>
+                                    </row-element>
+
+                                    
+                                    
+                                  </div>
+                                </section>
                               </main>
                             </div>
                           </div>
