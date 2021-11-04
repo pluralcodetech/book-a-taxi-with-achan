@@ -10,8 +10,25 @@
     width: 48%;
 }
 
+.customBookingDetails-btn2:hover,
+.customBookingDetails-btn,
 .custom-book-btn,
 #tabs > button.custom-active, #tabs > button:hover {
     background: #0646A2;
     color: #fff;
+}
+
+.customBookingDetails-btn2{
+    color: #0646A2;
+    border-color: #0646A2;
+}
+
+
+ 
+
+.customBookingDetails-Card {
+    background-image: url("../../assets/confetti-doodles.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }

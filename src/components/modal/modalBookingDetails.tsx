@@ -20,7 +20,7 @@ export class ModalBookingDetails {
 
     render() {
         return (
-            <figure class="rounded-xl p-10 bg-red-700 h-64 xl:h-80 2xl:h-80 space-y-2 sm+:space-y-4 md:space-y-8 w-full">
+            <figure class="rounded-xl p-10 h-full lg:h-80 2xl:h-80 space-y-2 sm+:space-y-4 md:space-y-8 w-full customBookingDetails-Card">
        
             <figcaption class="flex w-full">
                 <div>
