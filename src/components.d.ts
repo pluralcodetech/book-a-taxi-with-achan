@@ -10,6 +10,7 @@ export namespace Components {
         "callIcon": string;
         "carIcon": string;
         "emailIcon": string;
+        "id": string;
         "opened": boolean;
         "previousBtn": string;
     }
@@ -57,6 +58,7 @@ declare namespace LocalJSX {
         "callIcon"?: string;
         "carIcon"?: string;
         "emailIcon"?: string;
+        "id"?: string;
         "opened"?: boolean;
         "previousBtn"?: string;
     }

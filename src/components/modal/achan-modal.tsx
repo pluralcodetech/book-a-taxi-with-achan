@@ -23,6 +23,7 @@ export class AchhanModal {
     @Prop() callIcon = "call-icon.png"
     @Prop() emailIcon = "email-icon.png"
     @Prop({ reflect: true, mutable: true}) opened: boolean;
+    @Prop({ reflect: true, mutable: true}) id: string;
 
     closeModal() {
         this.opened = false;
@@ -76,6 +77,7 @@ export class AchhanModal {
     }
 
   render() {
+    console.log(this.id)
     //Conditionally rendered Road Trip Forms   
       let roadTripContent = <slot/>
       if(!this.showTripsContent) {
@@ -309,7 +311,7 @@ export class AchhanModal {
                         ) : null}
 
                         {this.bookingDetails ? (
-                          <div class="p-4">
+                          <div class="px-4 pt-10 pb-16">
                             <modal-booking-details></modal-booking-details>
 
                             <div class="flex flex-col  space-y-6">
@@ -344,7 +346,7 @@ export class AchhanModal {
 
                         {/* Cab Ticket */}
                         {this.cabTicket ? (
-                          <div class="px-16 py-7"> 
+                          <div class=" px-4 sm:px-16 py-7"> 
                             <div class="shadow-lg pb-10 w-full rounded-xl bg-white">
                               <header class='w-full p-4 py-6 rounded-t-xl cabTicket-header'>
                                 <div class="flex w-full items-center  justify-center">
@@ -357,7 +359,7 @@ export class AchhanModal {
                                 </div>
                               </header>
                               <main class="w-full px-6">
-                                <section class="px-6 pt-12 pb-6 border-b-2 border-dashed">
+                                <section class="sm:px-6 pt-12 pb-6 border-b-2 border-dashed">
                                   <h1 class="text-xl font-semibold cabTicket-m-s-h1">Booking Details</h1>
 
                                   <div class="mt-10">
@@ -392,8 +394,8 @@ export class AchhanModal {
                                   </div>
                                 </section>
 
-                                <section class="px-6 py-10 border-b-2 border-dashed">
-                                  <h1 class="text-xl font-semibold cabTicket-m-s-h1">Achan Customer Service</h1>
+                                <section class="sm:px-6 py-10 border-b-2 border-dashed">
+                                  <h1 class="text-xl font-semibold cabTicket-m-s-h1 text-start">Achan Customer Service</h1>
                                   <div class="mt-10 space-y-8">
                                     <div class="flex">
                                       <img  
@@ -421,7 +423,7 @@ export class AchhanModal {
                                     
                                   </div>
                                 </section>
-                                <section class="px-6 py-10 ">
+                                <section class="sm:px-6 py-10 ">
                                   <h1 class="text-xl font-semibold cabTicket-m-s-h1">Estimated cost</h1>
                                   <div class="mt-10 space-y-8">
                                     <row-element>
@@ -437,14 +439,14 @@ export class AchhanModal {
 
                         {/* Driver Details */}
                         {this.driverDetails ? (
-                          <div class="px-16 py-7">
+                          <div class="px-4 sm:px-16 py-7">
                             <div class="shadow-lg pb-10 w-full rounded-xl bg-white">
                               <header class='w-full p-4 py-6 rounded-t-xl text-center cabTicket-header'>
                                 <h4 class="text-xl font-semibold">Driver Details</h4>
                               </header>
 
                               <main class="w-full px-6">
-                                <section class="px-6 pt-12 pb-6">
+                                <section class="sm:px-6 pt-12 pb-6">
                                   <div class="mt-10">
                                     <row-element>
                                       <small>Name:</small>
