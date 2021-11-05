@@ -23,7 +23,7 @@ export class AchhanModal {
     @Prop() callIcon = "call-icon.png"
     @Prop() emailIcon = "email-icon.png"
     @Prop({ reflect: true, mutable: true}) opened: boolean;
-    @Prop({ reflect: true, mutable: true}) id: string;
+    // @Prop({ reflect: true, mutable: true}) id: string;
 
     closeModal() {
         this.opened = false;
@@ -77,7 +77,7 @@ export class AchhanModal {
     }
 
   render() {
-    console.log(this.id)
+    // console.log(this.id)
     //Conditionally rendered Road Trip Forms   
       let roadTripContent = <slot/>
       if(!this.showTripsContent) {

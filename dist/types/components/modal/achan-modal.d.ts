@@ -11,7 +11,6 @@ export declare class AchhanModal {
   callIcon: string;
   emailIcon: string;
   opened: boolean;
-  id: string;
   closeModal(): void;
   onContentChange(content: string): void;
   onBookChange(): void;

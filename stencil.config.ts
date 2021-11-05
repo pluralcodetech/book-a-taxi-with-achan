@@ -19,17 +19,20 @@ export const config: Config = {
     {
       type: 'dist',
       esmLoaderPath: '../loader',
+      copy: [
+        { src: 'assets', dest: '../assets' },
+      ]
     },
     {
       type: 'dist-custom-elements-bundle',
     },
-    {
-      type: 'docs-readme',
-    },
     // {
-    //   type: 'www',
-    //   serviceWorker: null, // disable service workers
+    //   type: 'docs-readme',
     // },
+    {
+      type: 'www',
+      serviceWorker: null, // disable service workers
+    },
   ],
   //add postcss as a plugin
   plugins: [

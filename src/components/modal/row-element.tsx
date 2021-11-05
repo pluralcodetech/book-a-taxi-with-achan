@@ -1,4 +1,4 @@
-import { Component, h, Prop } from "@stencil/core";
+import { Component, h} from "@stencil/core";
 
 @Component({
     tag: "row-element",
@@ -8,7 +8,6 @@ import { Component, h, Prop } from "@stencil/core";
 
 
 export class RowElement {
-    // @Prop({ reflect: true, mutable: true}) slot: string;
     render() {
         return (
             <div class="flex w-full flex-row justify-between mb-4 text-gray-400">
