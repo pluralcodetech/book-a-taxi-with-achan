@@ -24,6 +24,9 @@ export namespace Components {
         "time1": string | number;
         "time2": string | number;
     }
+    interface OneWayContent {
+        "onBookChange": () => void;
+    }
     interface RowElement {
     }
 }
@@ -40,6 +43,12 @@ declare global {
         prototype: HTMLModalBookingDetailsElement;
         new (): HTMLModalBookingDetailsElement;
     };
+    interface HTMLOneWayContentElement extends Components.OneWayContent, HTMLStencilElement {
+    }
+    var HTMLOneWayContentElement: {
+        prototype: HTMLOneWayContentElement;
+        new (): HTMLOneWayContentElement;
+    };
     interface HTMLRowElementElement extends Components.RowElement, HTMLStencilElement {
     }
     var HTMLRowElementElement: {
@@ -49,6 +58,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "achan-modal": HTMLAchanModalElement;
         "modal-booking-details": HTMLModalBookingDetailsElement;
+        "one-way-content": HTMLOneWayContentElement;
         "row-element": HTMLRowElementElement;
     }
 }
@@ -71,11 +81,15 @@ declare namespace LocalJSX {
         "time1"?: string | number;
         "time2"?: string | number;
     }
+    interface OneWayContent {
+        "onBookChange"?: () => void;
+    }
     interface RowElement {
     }
     interface IntrinsicElements {
         "achan-modal": AchanModal;
         "modal-booking-details": ModalBookingDetails;
+        "one-way-content": OneWayContent;
         "row-element": RowElement;
     }
 }
@@ -85,6 +99,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "achan-modal": LocalJSX.AchanModal & JSXBase.HTMLAttributes<HTMLAchanModalElement>;
             "modal-booking-details": LocalJSX.ModalBookingDetails & JSXBase.HTMLAttributes<HTMLModalBookingDetailsElement>;
+            "one-way-content": LocalJSX.OneWayContent & JSXBase.HTMLAttributes<HTMLOneWayContentElement>;
             "row-element": LocalJSX.RowElement & JSXBase.HTMLAttributes<HTMLRowElementElement>;
         }
     }
