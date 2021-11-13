@@ -1,4 +1,4 @@
-import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-f5fd659d.js';
+import { B as BUILD, c as consoleDevInfo, p as plt, w as win, H, d as doc, N as NAMESPACE, a as promiseResolve, b as bootstrapLazy } from './index-0d3b227d.js';
 import { g as globalScripts } from './app-globals-fd8c37b7.js';
 
 /*
@@ -121,5 +121,5 @@ const patchCloneNodeFix = (HTMLElementPrototype) => {
 
 patchBrowser().then(options => {
   globalScripts();
-  return bootstrapLazy([["achan-modal",[[1,"achan-modal",{"previousBtn":[1,"previous-btn"],"carIcon":[1,"car-icon"],"callIcon":[1,"call-icon"],"emailIcon":[1,"email-icon"],"opened":[1540],"showTripsContent":[32],"showTitleText":[32],"showFormContent":[32],"bookingDetails":[32],"confirmBooking":[32],"cabTicket":[32],"driverDetails":[32]}]]],["one-way-content",[[1,"one-way-content",{"onBookChange":[1040]}]]],["modal-booking-details",[[1,"modal-booking-details",{"dottedLines":[1,"dotted-lines"],"from":[1537],"date1":[1544,"date-1"],"time1":[1544,"time-1"],"location1":[1537,"location-1"],"date2":[1544,"date-2"],"time2":[1544,"time-2"],"location2":[1537,"location-2"],"estimatedPrice":[1538,"estimated-price"]}]]],["row-element",[[1,"row-element"]]]], options);
+  return bootstrapLazy([["achan-modal",[[1,"achan-modal",{"previousBtn":[1,"previous-btn"],"carIcon":[1,"car-icon"],"callIcon":[1,"call-icon"],"emailIcon":[1,"email-icon"],"opened":[1540],"id":[1537],"showTripsContent":[32],"showTitleText":[32],"showFormContent":[32],"bookingDetails":[32],"confirmBooking":[32],"cabTicket":[32],"driverDetails":[32],"fromDropDown":[32],"loading":[32],"error":[32]}]]],["one-way-content",[[1,"one-way-content",{"onBookChange":[1040]}]]],["modal-booking-details",[[1,"modal-booking-details",{"dottedLines":[1,"dotted-lines"],"from":[1537],"date1":[1544,"date-1"],"time1":[1544,"time-1"],"location1":[1537,"location-1"],"date2":[1544,"date-2"],"time2":[1544,"time-2"],"location2":[1537,"location-2"],"estimatedPrice":[1538,"estimated-price"]}]]],["row-element",[[1,"row-element"]]]], options);
 });

@@ -1,6 +1,4 @@
 export declare class AchhanModal {
-  fromDropdownAct: (...args: any) => any;
-  componentWillLoad(): void;
   showTripsContent: boolean;
   showTitleText: boolean;
   showFormContent: boolean;
@@ -8,11 +6,17 @@ export declare class AchhanModal {
   confirmBooking: boolean;
   cabTicket: boolean;
   driverDetails: boolean;
+  fromDropDown: any;
+  loading: boolean;
+  error: any;
   previousBtn: string;
   carIcon: string;
   callIcon: string;
   emailIcon: string;
   opened: boolean;
+  id: string;
+  fromDropdownAct: (...args: any) => any;
+  componentWillLoad(): void;
   closeModal(): void;
   onContentChange(content: string): void;
   onBookChange(): void;

@@ -1,62 +1,62 @@
 import { Component, getAssetPath, h, Prop, State } from '@stencil/core';
-import { createStore } from "@stencil/store";
+// import { createStore } from "@stencil/store";
 
 import { store } from '@stencil/redux';
 import {configureStore} from '../../reduxStatement/store'
 import fromDropdownAct from '../../reduxStatement/actions/fromDropdownAct';
 
 
-interface roadtripType { 
-  firstName: string,
-  surname: string,
-  phoneNumber: string | number,
-  emailAddress: string,
-  from: string,
-  destination: string | number,
-  date: string | number,
-  returnDate: string,
-  time: string | number,
-  returnTime: string | number,
-  destinationAddress: string | number,
-}
+// interface roadtripType { 
+//   firstName: string,
+//   surname: string,
+//   phoneNumber: string | number,
+//   emailAddress: string,
+//   from: string,
+//   destination: string | number,
+//   date: string | number,
+//   returnDate: string,
+//   time: string | number,
+//   returnTime: string | number,
+//   destinationAddress: string | number,
+// }
 
-interface  oneWayType { 
-  firstName: string,
-  surname: string,
-  phoneNumber: string | number,
-  emailAddress: string,
-  from: string,
-  destination: string | number,
-  date: string | number,
-  returnDate: string,
-  destinationAddress: string | number,
-}
+// interface  oneWayType { 
+//   firstName: string,
+//   surname: string,
+//   phoneNumber: string | number,
+//   emailAddress: string,
+//   from: string,
+//   destination: string | number,
+//   date: string | number,
+//   returnDate: string,
+//   destinationAddress: string | number,
+// }
 
-const storeRoadTripFormContent = createStore <roadtripType>({
-  firstName: "",
-  surname: "",
-  phoneNumber: "",
-  emailAddress: "",
-  from: "",
-  destination: "",
-  date: "",
-  returnDate: "",
-  time: "",
-  returnTime: "",
-  destinationAddress: "",
-});
+// const storeRoadTripFormContent = createStore <roadtripType>({
+//   firstName: "",
+//   surname: "",
+//   phoneNumber: "",
+//   emailAddress: "",
+//   from: "",
+//   destination: "",
+//   date: "",
+//   returnDate: "",
+//   time: "",
+//   returnTime: "",
+//   destinationAddress: "",
+// });
 
-const storeOneWayFormContent = createStore <oneWayType>({
-  firstName: "",
-  surname: "",
-  phoneNumber: "",
-  emailAddress: "",
-  from: "",
-  destination: "",
-  date: "",
-  returnDate: "",
-  destinationAddress: "",
-});
+// const storeOneWayFormContent = createStore <oneWayType>({
+//   firstName: "",
+//   surname: "",
+//   phoneNumber: "",
+//   emailAddress: "",
+//   from: "",
+//   destination: "",
+//   date: "",
+//   returnDate: "",
+//   destinationAddress: "",
+// });
 
 // console.log(storeRoadTripFormContent, storeOneWayFormContent)
 
@@ -74,70 +74,76 @@ const storeOneWayFormContent = createStore <oneWayType>({
 // w-auto items-center
 export class AchhanModal {
 
+  @State() showTripsContent = false;
+  @State() showTitleText = true;
+  @State() showFormContent = false;
+  @State() bookingDetails = false;
+  @State() confirmBooking = false;
+  @State() cabTicket = false;
+  @State() driverDetails = false;
+
+  @State() fromDropDown: any;
+  @State() loading: boolean;
+  @State() error: any;
+
+  @Prop() previousBtn = 'arrow-left.svg'
+  @Prop() carIcon = "car-icon.png"
+  @Prop() callIcon = "call-icon.png"
+  @Prop() emailIcon = "email-icon.png"
+  @Prop({ reflect: true, mutable: true }) opened: boolean;
+  @Prop({ reflect: true, mutable: true}) id: string;
+  
+    
   fromDropdownAct: (...args: any) => any;
+
 
   componentWillLoad() {
     store.setStore(configureStore({}));
 
-    store.mapStateToProps(this, state => state);
+    // store.mapStateToProps(this, fromDropdowData => fromDropdowData);
+
+    store.mapStateToProps (this, state => {
+      const {
+        fromDropDownReducer: { fromDropDown, loading, error },
+      } = state;
+      return {
+        fromDropDown,
+        loading,
+        error,
+      };
+    });
 
     store.mapDispatchToProps(this, {
       fromDropdownAct,
     });
 
-    this.fromDropdownAct("y0uuGO1xY1su5ni9HiZjwO40ZHHDprsg");
+
+
+    this.fromDropdownAct(this.id);
+  };
+
+  
+
+
+ 
+  
+  
+  
+
+  
+
+  closeModal() {
+    this.opened = false;
+    console.log("closing Modal...")
+
+    // other actions
+    this.showTitleText = true;
+    this.showFormContent = false;
+    this.bookingDetails = false;
+    this.confirmBooking = false;
+    this.cabTicket = false;
+    this.driverDetails = false;
   }
-
-// fromDropdownAct: (...args: any) => any;
-  
-    @State() showTripsContent = false;
-    @State() showTitleText = true;
-    @State() showFormContent = false;
-    @State() bookingDetails = false;
-    @State() confirmBooking = false;
-    @State() cabTicket = false;
-    @State() driverDetails = false;
-    @Prop() previousBtn = 'arrow-left.svg'
-    @Prop() carIcon = "car-icon.png"
-    @Prop() callIcon = "call-icon.png"
-    @Prop() emailIcon = "email-icon.png"
-    @Prop({ reflect: true, mutable: true}) opened: boolean;
-    // @Prop({ reflect: true, mutable: true}) id: string;
-  
-  
-  
-
-  // conponentWillLoad() { 
-  //   store.setStore(configureStore);
-  //   console.log(store)
-    
-  //   store.mapStateToProps(this, state => {
-  //     // console.log(state);
-  //     return state;
-  //    });
-    
-  //   store.mapDispatchToProps(this, {
-  //     fromDropdownAct,
-  //   });
-
-  //   this.fromDropdownAct("y0uuGO1xY1su5ni9HiZjwO40ZHHDprsg");
-
-    
-
-  // };
-
-    closeModal() {
-        this.opened = false;
-        console.log("closing Modal...")
-
-        // other actions
-        this.showTitleText = true;
-        this.showFormContent = false;
-        this.bookingDetails = false;
-        this.confirmBooking = false;
-        this.cabTicket = false;
-        this.driverDetails = false;
-    }
 
     onContentChange(content: string){
         this.showTripsContent = content === 'roundTrip'
@@ -178,6 +184,8 @@ export class AchhanModal {
     }
 
   render() {
+
+    console.log(this.fromDropDown);
     // console.log(this.id)
     //Conditionally rendered Road Trip Forms   
       let roadTripContent = <slot/>
