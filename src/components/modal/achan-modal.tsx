@@ -1,5 +1,64 @@
 import { Component, getAssetPath, h, Prop, State } from '@stencil/core';
-// import { createStore } from "@stencil/store";
+import { createStore } from "@stencil/store";
+
+import { store } from '@stencil/redux';
+import {configureStore} from '../../reduxStatement/store'
+import fromDropdownAct from '../../reduxStatement/actions/fromDropdownAct';
+
+
+interface roadtripType { 
+  firstName: string,
+  surname: string,
+  phoneNumber: string | number,
+  emailAddress: string,
+  from: string,
+  destination: string | number,
+  date: string | number,
+  returnDate: string,
+  time: string | number,
+  returnTime: string | number,
+  destinationAddress: string | number,
+}
+
+interface  oneWayType { 
+  firstName: string,
+  surname: string,
+  phoneNumber: string | number,
+  emailAddress: string,
+  from: string,
+  destination: string | number,
+  date: string | number,
+  returnDate: string,
+  destinationAddress: string | number,
+}
+
+const storeRoadTripFormContent = createStore <roadtripType>({
+  firstName: "",
+  surname: "",
+  phoneNumber: "",
+  emailAddress: "",
+  from: "",
+  destination: "",
+  date: "",
+  returnDate: "",
+  time: "",
+  returnTime: "",
+  destinationAddress: "",
+});
+
+const storeOneWayFormContent = createStore <oneWayType>({
+  firstName: "",
+  surname: "",
+  phoneNumber: "",
+  emailAddress: "",
+  from: "",
+  destination: "",
+  date: "",
+  returnDate: "",
+  destinationAddress: "",
+});
+
+// console.log(storeRoadTripFormContent, storeOneWayFormContent)
 
 @Component({
   tag: 'achan-modal',
@@ -7,11 +66,30 @@ import { Component, getAssetPath, h, Prop, State } from '@stencil/core';
   shadow: true,
   assetsDirs: ['assets'],
 })
+  
+
 
 
 
 // w-auto items-center
 export class AchhanModal {
+
+  fromDropdownAct: (...args: any) => any;
+
+  componentWillLoad() {
+    store.setStore(configureStore({}));
+
+    store.mapStateToProps(this, state => state);
+
+    store.mapDispatchToProps(this, {
+      fromDropdownAct,
+    });
+
+    this.fromDropdownAct("y0uuGO1xY1su5ni9HiZjwO40ZHHDprsg");
+  }
+
+// fromDropdownAct: (...args: any) => any;
+  
     @State() showTripsContent = false;
     @State() showTitleText = true;
     @State() showFormContent = false;
@@ -25,6 +103,28 @@ export class AchhanModal {
     @Prop() emailIcon = "email-icon.png"
     @Prop({ reflect: true, mutable: true}) opened: boolean;
     // @Prop({ reflect: true, mutable: true}) id: string;
+  
+  
+  
+
+  // conponentWillLoad() { 
+  //   store.setStore(configureStore);
+  //   console.log(store)
+    
+  //   store.mapStateToProps(this, state => {
+  //     // console.log(state);
+  //     return state;
+  //    });
+    
+  //   store.mapDispatchToProps(this, {
+  //     fromDropdownAct,
+  //   });
+
+  //   this.fromDropdownAct("y0uuGO1xY1su5ni9HiZjwO40ZHHDprsg");
+
+    
+
+  // };
 
     closeModal() {
         this.opened = false;
@@ -161,6 +261,12 @@ export class AchhanModal {
                   <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"  />
                 </div>
               </div>
+              <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
+                <div class="w-full">
+                  <label class="block text-gray-400 text-sm font-light mb-2">Destination Address</label>
+                  <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+                </div>
+              </div>
               <button 
                 type="button" 
                 onClick={this.onBookChange.bind(this)}  
@@ -173,81 +279,86 @@ export class AchhanModal {
       let oneWayContent = <slot/>
       if(this.showTripsContent) {
         oneWayContent = (
-          <one-way-content onBookChange={this.onBookChange.bind(this)}></one-way-content>
-          // <form class="px-4 pt-4 pb-10">
-          //   <div class="flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
-          //     <div class="sm:w-3/6">
-          //       <label class="block text-gray-400 text-sm font-light mb-2">Firstname</label>
-          //       <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
-          //     </div>
-          //     <div class="sm:w-3/6">
-          //       <label class="block text-gray-400 text-sm font-light mb-2">Surname</label>
-          //       <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
-          //     </div>
-          //   </div>
+          // <one-way-content onBookChange={this.onBookChange.bind(this)} ></one-way-content>
+          <form class="px-4 pt-4 pb-10">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
+              <div class="sm:w-3/6">
+                <label class="block text-gray-400 text-sm font-light mb-2">Firstname</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+              </div>
+              <div class="sm:w-3/6">
+                <label class="block text-gray-400 text-sm font-light mb-2">Surname</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+              </div>
+            </div>
 
-          //   <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
-          //     <div class="sm:w-3/6">
-          //       <label class="block text-gray-400 text-sm font-light mb-2">Phone Number</label>
-          //       <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
-          //     </div>
-          //     <div class="sm:w-3/6">
-          //       <label class="block text-gray-400 text-sm font-light mb-2">Email Address</label>
-          //       <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="email"  />
-          //     </div>
-          //   </div>
-          //   <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0">
-          //     <div class="sm:w-3/6">
-          //       <label class="block text-gray-400 text-sm font-light mb-2">From</label>
-          //       <div class="relative w-full">
-          //         <div class="pointer-events-none text-gray-600 absolute mt-3 ml-56  lg:ml-80  ">
-          //           <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-chevron-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          //               <path stroke="none" d="M0 0h24v24H0z"></path>
-          //               <polyline points="6 9 12 15 18 9"></polyline>
-          //           </svg>
+            <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
+              <div class="sm:w-3/6">
+                <label class="block text-gray-400 text-sm font-light mb-2">Phone Number</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+              </div>
+              <div class="sm:w-3/6">
+                <label class="block text-gray-400 text-sm font-light mb-2">Email Address</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="email"  />
+              </div>
+            </div>
+            <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0">
+              <div class="sm:w-3/6">
+                <label class="block text-gray-400 text-sm font-light mb-2">From</label>
+                <div class="relative w-full">
+                  <div class="pointer-events-none text-gray-600 absolute mt-3 ml-56  lg:ml-80  ">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-chevron-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z"></path>
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
                     
-          //         </div>
-          //         <select class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none focus:shadow-outline' >
-          //           <option value="" selected disabled hidden>select branch </option>
-          //           <option>Bread</option>
-          //           <option>Rice</option>
-          //         </select>
-          //       </div>
-          //     </div>
-          //     <div class="sm:w-3/6">
-          //       <label class="block text-gray-400 text-sm font-light mb-2">Destination</label>
-          //       <div class="relative w-full">
-          //         <div class="pointer-events-none text-gray-600 absolute mt-3 ml-56  lg:ml-80  ">
-          //           <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-chevron-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          //               <path stroke="none" d="M0 0h24v24H0z"></path>
-          //               <polyline points="6 9 12 15 18 9"></polyline>
-          //           </svg>
+                  </div>
+                  <select class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none focus:shadow-outline' >
+                    <option value="" selected disabled hidden>select branch </option>
+                    <option>Bread</option>
+                    <option>Rice</option>
+                  </select>
+                </div>
+              </div>
+              <div class="sm:w-3/6">
+                <label class="block text-gray-400 text-sm font-light mb-2">Destination</label>
+                <div class="relative w-full">
+                  <div class="pointer-events-none text-gray-600 absolute mt-3 ml-56  lg:ml-80  ">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon cursor-pointer icon-tabler icon-tabler-chevron-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z"></path>
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
                     
-          //         </div>
-          //         <select class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none focus:shadow-outline' >
-          //           <option value="" selected disabled hidden>select branch </option>
-          //           <option>Bread</option>
-          //           <option>Rice</option>
-          //         </select>
-          //       </div>
-          //     </div>
-          //   </div>
-          //   <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0">
-          //     <div class="sm:w-3/6">
-          //       <label class="block text-gray-400 text-sm font-light mb-2">Date</label>
-          //       <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"  />
-          //     </div>
-          //     <div class="sm:w-3/6">
-          //     <label class="block text-gray-400 text-sm font-light mb-2">Time</label>
-          //       <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"  />
-          //     </div>
-          //   </div>
-            
-          //   <button 
-          //     type="button" 
-          //     onClick={this.onBookChange.bind(this)}  
-          //     class="text-center mt-10 w-full border-0 p-3 outline-none focus:outline-none custom-book-btn">Book Now</button>
-          // </form>
+                  </div>
+                  <select class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none focus:shadow-outline' >
+                    <option value="" selected disabled hidden>select branch </option>
+                    <option>Bread</option>
+                    <option>Rice</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0">
+              <div class="sm:w-3/6">
+                <label class="block text-gray-400 text-sm font-light mb-2">Date</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"  />
+              </div>
+              <div class="sm:w-3/6">
+              <label class="block text-gray-400 text-sm font-light mb-2">Time</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"  />
+              </div>
+            </div>
+            <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
+              <div class="w-full">
+                <label class="block text-gray-400 text-sm font-light mb-2">Destination Address</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+              </div>
+            </div>
+            <button 
+              type="button" 
+              onClick={this.onBookChange.bind(this)}  
+              class="text-center mt-10 w-full border-0 p-3 outline-none focus:outline-none custom-book-btn">Book Now</button>
+          </form>
         
         )
       }

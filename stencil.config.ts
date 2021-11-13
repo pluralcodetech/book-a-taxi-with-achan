@@ -21,6 +21,7 @@ export const config: Config = {
       esmLoaderPath: '../loader',
       copy: [
         { src: 'assets', dest: '../assets' },
+        { src: 'reduxStatement', dest: '../reduxStatement' },
       ]
     },
     {

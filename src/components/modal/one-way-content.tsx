@@ -2,12 +2,13 @@ import { Component, h, Prop } from "@stencil/core";
 
 @Component({
     tag: "one-way-content",
-    styleUrl: "achan-modal.css"
+    styleUrl: "achan-modal.css",
+    shadow: true,
 })
 
 
 export class OneWayContent {
-    @Prop() onBookChange: () => void;
+    @Prop({ reflect: true, mutable: true}) onBookChange: () => void;
     render() {
         return (
             <form class="px-4 pt-4 pb-10">

@@ -1,4 +1,6 @@
 export declare class AchhanModal {
+  fromDropdownAct: (...args: any) => any;
+  componentWillLoad(): void;
   showTripsContent: boolean;
   showTitleText: boolean;
   showFormContent: boolean;
