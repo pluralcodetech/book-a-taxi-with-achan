@@ -7,16 +7,17 @@ export declare class AchhanModal {
   cabTicket: boolean;
   driverDetails: boolean;
   fromDropDown: any;
-  loading: boolean;
-  error: any;
+  storeFromDropDown: any;
+  destinationState: any;
   previousBtn: string;
   carIcon: string;
   callIcon: string;
   emailIcon: string;
   opened: boolean;
   id: string;
-  fromDropdownAct: (...args: any) => any;
   componentWillLoad(): void;
+  componentWillUpdate(): void;
+  callFromDataApi: (id: any) => Promise<void>;
   closeModal(): void;
   onContentChange(content: string): void;
   onBookChange(): void;
@@ -24,5 +25,7 @@ export declare class AchhanModal {
   openConfirmBooking(): void;
   cabTicketChange(): void;
   openDriverDetails(): void;
+  handleSecondSelect(event: any): void;
+  callDestinationDataApi: (id?: any) => Promise<void>;
   render(): any;
 }

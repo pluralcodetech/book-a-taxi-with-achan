@@ -22,4 +22,3 @@ const handleErrors = (response: any) => {
   }
   return response;
 }
-export default fromDropdownAct;

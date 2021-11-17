@@ -1,9 +1,11 @@
-import { Component, getAssetPath, h, Prop, State } from '@stencil/core';
+import { Component, getAssetPath, h, Prop, State} from '@stencil/core';
 // import { createStore } from "@stencil/store";
+import { handleErrors } from '../actions';
 
-import { store } from '@stencil/redux';
-import {configureStore} from '../../reduxStatement/store'
-import fromDropdownAct from '../../reduxStatement/actions/fromDropdownAct';
+
+// import { store } from '@stencil/redux';
+// import {configureStore} from '../../reduxStatement/store'
+// import fromDropdownAct from '../../reduxStatement/actions/fromDropdownAct';
 
 
 // interface roadtripType { 
@@ -83,55 +85,104 @@ export class AchhanModal {
   @State() driverDetails = false;
 
   @State() fromDropDown: any;
-  @State() loading: boolean;
-  @State() error: any;
+  @State() storeFromDropDown: any;
+  @State() destinationState: any;
+
+
 
   @Prop() previousBtn = 'arrow-left.svg'
   @Prop() carIcon = "car-icon.png"
   @Prop() callIcon = "call-icon.png"
   @Prop() emailIcon = "email-icon.png"
   @Prop({ reflect: true, mutable: true }) opened: boolean;
-  @Prop({ reflect: true, mutable: true}) id: string;
+  @Prop({ reflect: true, mutable: true }) id: string;
+
+
+
+
+  
+  
+  // @Watch('getId')
+
+  
   
     
-  fromDropdownAct: (...args: any) => any;
-
+  // fromDropdownAct: (...args: any) => any;
 
   componentWillLoad() {
-    store.setStore(configureStore({}));
+// console.log(this.getId);
+
+    if (this.id) {
+      this.callFromDataApi(this.id);
+    }
+
+
+    
+    
+    // if (this.storeFromDropDown) {
+    //   this.callDestinationDataApi(this.storeFromDropDown);
+    // }
+
+    if (this.storeFromDropDown) {
+      this.callDestinationDataApi();
+
+    }
+    // this.callDestinationDataApi();
+
+
+    
+    // store.setStore(configureStore({}));
 
     // store.mapStateToProps(this, fromDropdowData => fromDropdowData);
 
-    store.mapStateToProps (this, state => {
-      const {
-        fromDropDownReducer: { fromDropDown, loading, error },
-      } = state;
-      return {
-        fromDropDown,
-        loading,
-        error,
-      };
-    });
+    // if (this.getId) {
+    //      store.mapStateToProps (this, state => {
+    //   const {
+    //     fromDropDownReducer: { fromDropDown, loading, error },
+    //   } = state;
+    //   return {
+    //     fromDropDown,
+    //     loading,
+    //     error,
+    //   };
+    // });
 
-    store.mapDispatchToProps(this, {
-      fromDropdownAct,
-    });
+    //   store.mapDispatchToProps(this, {
+    //     fromDropdownAct,
+    //   });
 
 
 
-    this.fromDropdownAct(this.id);
+    //   this.fromDropdownAct(this.getId);
+    // }
+ 
+  };
+
+  componentWillUpdate() { 
+    // this.callDestinationDataApi();
+    if (this.storeFromDropDown) {
+      this.callDestinationDataApi();
+
+    }
   };
 
   
-
-
- 
-  
-  
   
 
-  
+  // 
+  callFromDataApi = async (id: any) => {
+    // console.log(id);
+    
+    const response = await fetch(`https://watchoutachan.herokuapp.com/api/airline_branch/${id}`, {
+      method: 'post',
+    });
+    handleErrors(response);
 
+    let json = await response.json();
+    this.fromDropDown = json;
+    // console.log(json)
+  };
+  
   closeModal() {
     this.opened = false;
     console.log("closing Modal...")
@@ -145,47 +196,75 @@ export class AchhanModal {
     this.driverDetails = false;
   }
 
-    onContentChange(content: string){
-        this.showTripsContent = content === 'roundTrip'
-    }
+  onContentChange(content: string){
+      this.showTripsContent = content === 'roundTrip'
+  }
 
-    onBookChange() {
-      this.showFormContent = true;
-      this.bookingDetails = true;
-    }
+  onBookChange() {
+    this.showFormContent = true;
+    this.bookingDetails = true;
+  }
 
-    previousChange() {
-      this.showTitleText = true;
-      this.showFormContent = false;
-      this.bookingDetails = false;
-      this.confirmBooking = false;
-    }
+  previousChange() {
+    this.showTitleText = true;
+    this.showFormContent = false;
+    this.bookingDetails = false;
+    this.confirmBooking = false;
+  }
 
-    openConfirmBooking() {
-      this.showTitleText = false;
-      this.showFormContent = true;
-      this.bookingDetails = false;
-      this.confirmBooking = true;
-    }
+  openConfirmBooking() {
+    this.showTitleText = false;
+    this.showFormContent = true;
+    this.bookingDetails = false;
+    this.confirmBooking = true;
+  }
 
-    cabTicketChange() {
-      this.showFormContent = true;
-      this.bookingDetails = false;
-      this.confirmBooking = false;
-      this.cabTicket = true;
-    }
+  cabTicketChange() {
+    this.showFormContent = true;
+    this.bookingDetails = false;
+    this.confirmBooking = false;
+    this.cabTicket = true;
+  }
 
-    openDriverDetails() {
-      this.showFormContent = true;
-      this.bookingDetails = false;
-      this.confirmBooking = false;
-      this.cabTicket = false;
-      this.driverDetails = true;
-    }
+  openDriverDetails() {
+    this.showFormContent = true;
+    this.bookingDetails = false;
+    this.confirmBooking = false;
+    this.cabTicket = false;
+    this.driverDetails = true;
+  }
 
+  
+  handleSecondSelect(event) {
+    this.storeFromDropDown = event.target.value;
+    
+  }
+
+  callDestinationDataApi = async (id?: any) => {
+    console.log(this.storeFromDropDown);
+    
+    let destiData: FormData = new FormData();
+    destiData.append('branchid', this.storeFromDropDown);
+
+
+    const response = await fetch(`https://watchoutachan.herokuapp.com/api/destinationarea`,
+      {
+        method: 'post',
+        body: destiData,
+        // headers : { 
+        //   "Content-Type": "multipart/form-data",
+        // }
+      }
+    );
+    handleErrors(response);
+
+    let json = await response.json();
+    this.destinationState = json;
+    console.log(json)
+   }
   render() {
-
-    console.log(this.fromDropDown);
+// console.log(this.storeFromDropDown)
+//     console.log(this.fromDropDown);
     // console.log(this.id)
     //Conditionally rendered Road Trip Forms   
       let roadTripContent = <slot/>
@@ -224,10 +303,14 @@ export class AchhanModal {
                       </svg>
                       
                     </div>
-                    <select class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline' >
+                    <select
+                      class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline'
+                      onInput={(event) => this.handleSecondSelect(event)}
+                    >
                       <option value="" selected disabled hidden>select branch </option>
-                      <option>Bread</option>
-                      <option>Rice</option>
+                        {this.fromDropDown?.map(({userid, branch_location }) => 
+                          <option value={userid} >{branch_location}</option>
+                        )}
                     </select>
                   </div>
                 </div>
@@ -243,8 +326,9 @@ export class AchhanModal {
                     </div>
                     <select class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline' >
                       <option value="" selected disabled hidden>select branch </option>
-                      <option>Bread</option>
-                      <option>Rice</option>
+                        {this.destinationState?.map(({area }) => 
+                          <option value={area} >{area}</option>
+                        )}
                     </select>
                   </div>
                 </div>
