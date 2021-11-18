@@ -1,3 +1,16 @@
+interface roadtripType {
+  firstName: string;
+  surname: string;
+  phoneNumber: string;
+  emailAddress: string;
+  from: string;
+  destination: string;
+  date: string;
+  returnDate: string;
+  time: string;
+  returnTime: string;
+  destinationAddress: string;
+}
 export declare class AchhanModal {
   showTripsContent: boolean;
   showTitleText: boolean;
@@ -9,12 +22,26 @@ export declare class AchhanModal {
   fromDropDown: any;
   storeFromDropDown: any;
   destinationState: any;
+  roadTrip: roadtripType;
+  roadTripValid: boolean;
+  firstNameErrMsg: any;
+  surnameErrMsg: any;
+  phoneNumberErrMsg: any;
+  emailAddressErrMsg: any;
+  fromErrMsg: any;
+  destinationErrMsg: any;
+  dateErrMsg: any;
+  returnDateErrMsg: any;
+  timeErrMsg: any;
+  returnTimeErrMsg: any;
+  destinationAddressErrMsg: any;
   previousBtn: string;
   carIcon: string;
   callIcon: string;
   emailIcon: string;
   opened: boolean;
   id: string;
+  watchStateHandler(newValue: any, oldValue: any): void;
   componentWillLoad(): void;
   componentWillUpdate(): void;
   callFromDataApi: (id: any) => Promise<void>;
@@ -26,6 +53,8 @@ export declare class AchhanModal {
   cabTicketChange(): void;
   openDriverDetails(): void;
   handleSecondSelect(event: any): void;
-  callDestinationDataApi: (id?: any) => Promise<void>;
+  callDestinationDataApi: () => Promise<void>;
+  handleChange(event: any): void;
   render(): any;
 }
+export {};

@@ -1,5 +1,5 @@
-import { Component, getAssetPath, h, Prop, State} from '@stencil/core';
-// import { createStore } from "@stencil/store";
+import { Component, getAssetPath, h, Prop, State, Watch} from '@stencil/core';
+import { createStore } from "@stencil/store";
 import { handleErrors } from '../actions';
 
 
@@ -8,19 +8,20 @@ import { handleErrors } from '../actions';
 // import fromDropdownAct from '../../reduxStatement/actions/fromDropdownAct';
 
 
-// interface roadtripType { 
-//   firstName: string,
-//   surname: string,
-//   phoneNumber: string | number,
-//   emailAddress: string,
-//   from: string,
-//   destination: string | number,
-//   date: string | number,
-//   returnDate: string,
-//   time: string | number,
-//   returnTime: string | number,
-//   destinationAddress: string | number,
-// }
+interface roadtripType { 
+  firstName: string,
+  surname: string,
+  phoneNumber: string,
+  emailAddress: string,
+  from: string,
+  destination: string,
+  date: string,
+  returnDate: string,
+  time: string,
+  returnTime: string,
+  destinationAddress: string,
+}
+
 
 // interface  oneWayType { 
 //   firstName: string,
@@ -35,17 +36,17 @@ import { handleErrors } from '../actions';
 // }
 
 // const storeRoadTripFormContent = createStore <roadtripType>({
-//   firstName: "",
-//   surname: "",
-//   phoneNumber: "",
-//   emailAddress: "",
-//   from: "",
-//   destination: "",
-//   date: "",
-//   returnDate: "",
-//   time: "",
-//   returnTime: "",
-//   destinationAddress: "",
+  // firstName: "",
+  // surname: "",
+  // phoneNumber: "",
+  // emailAddress: "",
+  // from: "",
+  // destination: "",
+  // date: "",
+  // returnDate: "",
+  // time: "",
+  // returnTime: "",
+  // destinationAddress: "",
 // });
 
 // const storeOneWayFormContent = createStore <oneWayType>({
@@ -88,7 +89,37 @@ export class AchhanModal {
   @State() storeFromDropDown: any;
   @State() destinationState: any;
 
+  // @State() myCoolObject;
+  @State() roadTrip : roadtripType = {
+    firstName: "",
+    surname: "",
+    phoneNumber: "",
+    emailAddress: "",
+    from: "",
+    destination: "",
+    date: "",
+    returnDate: "",
+    time: "",
+    returnTime: "",
+    destinationAddress: "",
+  };
 
+  @State() roadTripValid: boolean = false;
+
+  // validation States
+
+  @State() firstNameErrMsg;
+  @State() surnameErrMsg;
+  @State() phoneNumberErrMsg;
+  @State() emailAddressErrMsg;
+  @State() fromErrMsg;
+  @State() destinationErrMsg;
+  @State() dateErrMsg;
+  @State() returnDateErrMsg;
+  @State() timeErrMsg;
+  @State() returnTimeErrMsg;
+  @State() destinationAddressErrMsg;
+  
 
   @Prop() previousBtn = 'arrow-left.svg'
   @Prop() carIcon = "car-icon.png"
@@ -98,8 +129,32 @@ export class AchhanModal {
   @Prop({ reflect: true, mutable: true }) id: string;
 
 
+  //
+  // this.roadTrip = {
+  //   firstName: "",
+  //   surname: "",
+  //   phoneNumber: "",
+  //   emailAddress: "",
+  //   from: "",
+  //   destination: "",
+  //   date: "",
+  //   returnDate: "",
+  //   time: "",
+  //   returnTime: "",
+  //   destinationAddress: "",
+  // }
+  
+  // this.myCoolObject = {first: '1', second: '2'}
 
 
+@Watch('roadTrip')
+watchStateHandler(newValue: any, oldValue: any) {
+  console.log('The old value of roadTrip is: ', oldValue);
+    console.log('The new value of roadTrip is: ', newValue);
+  }
+
+
+ 
   
   
   // @Watch('getId')
@@ -201,8 +256,67 @@ export class AchhanModal {
   }
 
   onBookChange() {
-    this.showFormContent = true;
-    this.bookingDetails = true;
+    // this.showFormContent = true;
+    // this.bookingDetails = true;
+    // console.log(this.roadTrip);
+
+    if (!this.roadTripValid) {
+      if (this.roadTrip.firstName.trim() === '') {
+        this.firstNameErrMsg = 'First Name is required';
+      }
+      if (this.roadTrip.surname.trim() === '') {
+        this.surnameErrMsg = 'Surname is required';
+      }
+      if (this.roadTrip.phoneNumber.trim() === '') {
+        this.phoneNumberErrMsg = 'Phone Number is required';
+      }
+      if (this.roadTrip.emailAddress.trim() === '') {
+        this.emailAddressErrMsg = 'Email Address is required';
+      }
+      if (this.roadTrip.from.trim() === '') {
+        this.fromErrMsg = 'From is required';
+      }
+      if (this.roadTrip.destination.trim() === '') {
+        this.destinationErrMsg = 'Destination is required';
+      }
+      if (this.roadTrip.date.trim() === '') {
+        this.dateErrMsg = 'Date is required';
+      }
+      if (this.roadTrip.returnDate.trim() === '') {
+        this.returnDateErrMsg = 'Return Date is required';
+      }
+      if (this.roadTrip.time.trim() === '') {
+        this.timeErrMsg = 'Time is required';
+      }
+      if (this.roadTrip.returnTime.trim() === '') {
+        this.returnTimeErrMsg = 'Return Time is required';
+      }
+      if (this.roadTrip.destinationAddress.trim() === '') {
+        this.destinationAddressErrMsg = 'Destination Address is required';
+      }
+
+      if (
+        this.roadTrip.firstName.trim() !== ''
+        && this.roadTrip.surname.trim() !== ''
+        && this.roadTrip.phoneNumber.trim() !== ''
+        && this.roadTrip.emailAddress.trim() !== ''
+        && this.roadTrip.from.trim() !== ''
+        && this.roadTrip.destination.trim() !== ''
+        && this.roadTrip.date.trim() !== ''
+        && this.roadTrip.returnDate.trim() !== ''
+        && this.roadTrip.time.trim() !== ''
+        && this.roadTrip.returnTime.trim() !== ''
+        && this.roadTrip.destinationAddress.trim() !== ''
+      ) {
+        this.roadTripValid = true;
+        console.log(this.roadTrip);
+      } else {
+        this.roadTripValid = false;
+      }
+
+      
+    }
+    
   }
 
   previousChange() {
@@ -237,11 +351,12 @@ export class AchhanModal {
   
   handleSecondSelect(event) {
     this.storeFromDropDown = event.target.value;
+    this.roadTrip.from = event.target.value;
     
   }
 
-  callDestinationDataApi = async (id?: any) => {
-    console.log(this.storeFromDropDown);
+  callDestinationDataApi = async () => {
+    // console.log(this.storeFromDropDown);
     
     let destiData: FormData = new FormData();
     destiData.append('branchid', this.storeFromDropDown);
@@ -260,9 +375,20 @@ export class AchhanModal {
 
     let json = await response.json();
     this.destinationState = json;
-    console.log(json)
-   }
+    // console.log(json)
+  }
+  
+  // 
+  handleChange(event) {
+    const value = event.target.value;
+    // const storeValue = this.roadTrip[event.target.name] = value;
+    this.roadTrip[event.target.name] = value;
+    
+    
+  }
   render() {
+    // console.log(this.errorMessage)
+    // console.log(this.roadTrip);
 // console.log(this.storeFromDropDown)
 //     console.log(this.fromDropDown);
     // console.log(this.id)
@@ -274,22 +400,46 @@ export class AchhanModal {
               <div class="flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
                 <div class="sm:w-3/6">
                   <label class="block text-gray-400 text-sm font-light mb-2">Firstname</label>
-                  <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+                  <input
+                    name ="firstName"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                    onInput={(e) => this.handleChange(e)}
+                    required
+                  />
+                  <small>{this.firstNameErrMsg}</small>
                 </div>
                 <div class="sm:w-3/6">
                   <label class="block text-gray-400 text-sm font-light mb-2">Surname</label>
-                  <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+                  <input
+                    name="surname"
+                    onInput={(e) => this.handleChange(e)}
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                    required
+                  />
+                  <small>{this.surnameErrMsg}</small>
                 </div>
               </div>
 
               <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
                 <div class="sm:w-3/6">
                   <label class="block text-gray-400 text-sm font-light mb-2">Phone Number</label>
-                  <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+                  <input
+                    name='phoneNumber'
+                    onInput={(e) => this.handleChange(e)}
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                    required
+                  />
+                  <small>{this.phoneNumberErrMsg}</small>
                 </div>
                 <div class="sm:w-3/6">
                   <label class="block text-gray-400 text-sm font-light mb-2">Email Address</label>
-                  <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="email"  />
+                  <input
+                    name="emailAddress"
+                    onInput={(e) => this.handleChange(e)}
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="email"
+                    required
+                  />
+                  <small>{this.emailAddressErrMsg}</small>
                 </div>
               </div>
               <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
@@ -305,13 +455,15 @@ export class AchhanModal {
                     </div>
                     <select
                       class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline'
-                      onInput={(event) => this.handleSecondSelect(event)}
+                      onInput={(event) => this.handleSecondSelect(event)} 
+                      required
                     >
                       <option value="" selected disabled hidden>select branch </option>
                         {this.fromDropDown?.map(({userid, branch_location }) => 
                           <option value={userid} >{branch_location}</option>
                         )}
                     </select>
+                    <small>{this.fromErrMsg}</small>
                   </div>
                 </div>
                 <div class="sm:w-3/6">
@@ -324,39 +476,75 @@ export class AchhanModal {
                       </svg>
                       
                     </div>
-                    <select class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline' >
+                    <select
+                      name="destination"
+                      onInput={(e) => this.handleChange(e)}
+                      class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline'
+                      required
+                    >
                       <option value="" selected disabled hidden>select branch </option>
                         {this.destinationState?.map(({area }) => 
                           <option value={area} >{area}</option>
                         )}
                     </select>
+                    <small>{this.destinationErrMsg}</small>
                   </div>
                 </div>
               </div>
               <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
                 <div class="sm:w-3/6">
                   <label class="block text-gray-400 text-sm font-light mb-2">Date</label>
-                  <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"  />
+                  <input
+                    name="date"
+                    onInput={(e) => this.handleChange(e)}
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"
+                    required
+                  />
+                  <small>{this.dateErrMsg}</small>
                 </div>
                 <div class="sm:w-3/6">
                   <label class="block text-gray-400 text-sm font-light mb-2">Return Date</label>
-                  <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"  />
+                  <input
+                    name="returnDate"
+                    onInput={(e) => this.handleChange(e)}
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"
+                    required
+                  />
+                  <small>{this.returnDateErrMsg}</small>
                 </div>
               </div>
               <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
                 <div class="sm:w-3/6">
                   <label class="block text-gray-400 text-sm font-light mb-2">Time</label>
-                  <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"  />
+                  <input
+                    name="time"
+                    onInput={(e) => this.handleChange(e)}
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"
+                    required
+                  />
+                  <small>{this.timeErrMsg}</small>
                 </div>
                 <div class="sm:w-3/6">
                   <label class="block text-gray-400 text-sm font-light mb-2">Return Time</label>
-                  <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"  />
+                  <input
+                    name="returnTime"
+                    onInput={(e) => this.handleChange(e)}
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"
+                    required
+                  />
+                  <small>{this.returnTimeErrMsg}</small>
                 </div>
               </div>
               <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
                 <div class="w-full">
                   <label class="block text-gray-400 text-sm font-light mb-2">Destination Address</label>
-                  <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+                  <input
+                    name="destinationAddress"
+                    onInput={(e) => this.handleChange(e)}
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                    required
+                  />
+                  <small>{this.destinationAddressErrMsg}</small>
                 </div>
               </div>
               <button 

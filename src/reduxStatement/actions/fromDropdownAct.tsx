@@ -7,7 +7,6 @@ import { fromDataBegin, fromDataFailure, fromDataSuccess } from "../reducers/fro
         })
         handleErrors(response);
 
-
         let json = await response.json();
         
         dispatch(fromDataSuccess(json));
