@@ -310,6 +310,7 @@ watchStateHandler(newValue: any, oldValue: any) {
       ) {
         this.roadTripValid = true;
         console.log(this.roadTrip);
+        localStorage.setItem("roadTripForm", JSON.stringify(this.roadTrip))
       } else {
         this.roadTripValid = false;
       }
