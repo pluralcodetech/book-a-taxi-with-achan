@@ -54,7 +54,7 @@ export class ModalBookingDetails {
                     <div class="text-white w-full">
                         <div class="flex flex-col space-y-2 sm:space-y-1">
                             <small class="text-sm font-semibold">from</small>
-                            <small class="text-xs">{this.date}</small>
+                            <small class="text-xs">{convertDate(this.date)}</small>
                             <small class="text-lg">{this.time }</small>
                             <small class="text-sm">{ this.airport}</small>
                             

@@ -25,6 +25,7 @@ export declare class AchhanModal {
   roadTrip: roadtripType;
   roadTripValid: boolean;
   estimatePrice: any;
+  cabTicketDetails: any;
   firstNameErrMsg: any;
   surnameErrMsg: any;
   phoneNumberErrMsg: any;
@@ -55,9 +56,10 @@ export declare class AchhanModal {
   cabTicketChange(): void;
   openDriverDetails(): void;
   handleSecondSelect(event: any): void;
+  handleChange(event: any): void;
   callDestinationDataApi: () => Promise<void>;
   callEstimatedDataApi: () => Promise<void>;
-  handleChange(event: any): void;
+  callConfirmBookingApi: () => Promise<void>;
   render(): any;
 }
 export {};

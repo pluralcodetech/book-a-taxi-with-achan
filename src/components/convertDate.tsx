@@ -7,7 +7,7 @@ const convertDate = (params: any) => {
     const weekday = new Intl.DateTimeFormat('en', { weekday: 'short' }).format(date)
     
     
-    return `${weekday}-${day}-${month}-${year}`
+    return `${weekday} ${day}, ${month} ${year}`
     
    
 }

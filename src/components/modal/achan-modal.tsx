@@ -1,6 +1,7 @@
 import { Component, getAssetPath, h, Prop, State, Watch, Event} from '@stencil/core';
 import { createStore } from "@stencil/store";
 import { handleErrors } from '../actions';
+import convertDate from '../convertDate';
 
 
 // import { store } from '@stencil/redux';
@@ -105,6 +106,7 @@ export class AchhanModal {
 
   @State() roadTripValid: boolean = false;
   @State() estimatePrice;
+  @State() cabTicketDetails;
 
   // validation States
 
@@ -327,16 +329,16 @@ watchStateHandler(newValue: any, oldValue: any) {
         this.showFormContent = true;
         this.bookingDetails = true;
 
-        this.roadTrip.firstName = '';
-        this.roadTrip.surname = '';
-        this.roadTrip.phoneNumber = '';
-        this.roadTrip.emailAddress = '';
-        this.roadTrip.destinationAddress = '';
-        this.roadTrip.date = '';
-        this.roadTrip.returnDate = '';
-        this.roadTrip.time = '';
-        this.roadTrip.returnTime = '';
-        this.roadTrip.destinationAddress = '';
+        // this.roadTrip.firstName = '';
+        // this.roadTrip.surname = '';
+        // this.roadTrip.phoneNumber = '';
+        // this.roadTrip.emailAddress = '';
+        // this.roadTrip.destinationAddress = '';
+        // this.roadTrip.date = '';
+        // this.roadTrip.returnDate = '';
+        // this.roadTrip.time = '';
+        // this.roadTrip.returnTime = '';
+        // this.roadTrip.destinationAddress = '';
       } else {
         this.roadTripValid = false;
       }
@@ -354,10 +356,12 @@ watchStateHandler(newValue: any, oldValue: any) {
   }
 
   openConfirmBooking() {
+    this.callConfirmBookingApi()
     this.showTitleText = false;
     this.showFormContent = true;
     this.bookingDetails = false;
     this.confirmBooking = true;
+
   }
 
   cabTicketChange() {
@@ -380,6 +384,14 @@ watchStateHandler(newValue: any, oldValue: any) {
     this.storeFromDropDown = event.target.value;
     this.roadTrip.from = event.target.value;
     this.callDestinationDataApi();
+    
+  }
+
+  handleChange(event) {
+    const value = event.target.value;
+    // const storeValue = this.roadTrip[event.target.name] = value;
+    this.roadTrip[event.target.name] = value;
+    
     
   }
 
@@ -428,18 +440,55 @@ watchStateHandler(newValue: any, oldValue: any) {
     let json = await response.json();
     this.estimatePrice = json;
   };
+
+  callConfirmBookingApi = async () => {
+    let ConfirmBooking: FormData = new FormData();
+    ConfirmBooking.append('firstname', this.roadTrip.firstName);
+    ConfirmBooking.append('surname', this.roadTrip.surname);
+    ConfirmBooking.append('email', this.roadTrip.emailAddress);
+    ConfirmBooking.append('phonenumber', this.roadTrip.phoneNumber);
+    ConfirmBooking.append('airid', this.roadTrip.from);
+    ConfirmBooking.append('from', this.estimatePrice?.first_cost?.from);
+    ConfirmBooking.append('to', this.roadTrip.destination);
+    ConfirmBooking.append('date', this.roadTrip.date);
+    ConfirmBooking.append('time', this.roadTrip.time);
+    ConfirmBooking.append('returndate', this.roadTrip.returnDate);
+    ConfirmBooking.append('returntime', this.roadTrip.returnTime);
+    ConfirmBooking.append('dest_address', this.roadTrip.destinationAddress);
+    ConfirmBooking.append('estmin', this.estimatePrice?.first_cost?.est_min);
+    ConfirmBooking.append('estmax', this.estimatePrice?.first_cost?.est_max);
+
+
+
+    const response = await fetch(`https://watchoutachan.herokuapp.com/api/booktrip`,
+      {
+        method: 'post',
+        body: ConfirmBooking,
+      }
+    );
+    handleErrors(response);
+
+    let json = await response.json();
+    this.cabTicketDetails = json;
+  };
   
   // 
-  handleChange(event) {
-    const value = event.target.value;
-    // const storeValue = this.roadTrip[event.target.name] = value;
-    this.roadTrip[event.target.name] = value;
-    
-    
-  }
-  render() {
+  
 
-    console.log(this.estimatePrice?.first_cost)
+
+
+  render() {
+    console.log(this.cabTicketDetails);
+    // console.log(this.roadTrip.firstName,
+    //   this.roadTrip.surname, this.roadTrip.emailAddress,
+    //   this.roadTrip.phoneNumber, this.roadTrip.from,
+    //   this.estimatePrice?.first_cost?.from, this.roadTrip.destination,
+    //   this.roadTrip.date, this.roadTrip.time, this.roadTrip.returnDate,
+    //   this.roadTrip.returnTime, this.roadTrip.destinationAddress,
+    //   this.estimatePrice?.first_cost?.est_min, this.estimatePrice?.first_cost?.est_max
+    // );
+    
+    // console.log(this.estimatePrice?.first_cost)
     
     // console.log(this.errorMessage)
     // console.log(this.roadTrip);
@@ -769,17 +818,17 @@ watchStateHandler(newValue: any, oldValue: any) {
                         {this.bookingDetails ? (
                           <div class="px-4  pt-10 pb-16">
                               <div >
-                                  <div class="mb-5">
-                                      <modal-booking-details
-                                        date={this.tripsDetails.date} //date
-                                        time={this.tripsDetails.time} //time
-                                        airport={this.estimatePrice?.first_cost?.from}
-                                        destinationAddress={this.estimatePrice?.first_cost?.to}
-                                        destination={this.tripsDetails.destination} //destination
-                                        estimatedPriceMax={this.estimatePrice?.first_cost?.est_max}
-                                        estimatedPriceMin={this.estimatePrice?.first_cost?.est_min}
-                                      ></modal-booking-details>
-                                  </div>
+                                <div class="mb-5">
+                                    <modal-booking-details
+                                      date={this.tripsDetails.date} //date
+                                      time={this.tripsDetails.time} //time
+                                      airport={this.estimatePrice?.first_cost?.from}
+                                      destinationAddress={this.estimatePrice?.first_cost?.to}
+                                      destination={this.tripsDetails.destination} //destination
+                                      estimatedPriceMax={this.estimatePrice?.first_cost?.est_max}
+                                      estimatedPriceMin={this.estimatePrice?.first_cost?.est_min}
+                                    ></modal-booking-details>
+                                </div>
                               
                       
                                     {this.tripsDetails.returnDate && this.tripsDetails.returnTime ?
@@ -848,32 +897,54 @@ watchStateHandler(newValue: any, oldValue: any) {
                                   <div class="mt-10">
                                     <row-element>
                                       <small>Name:</small>
-                                      <small>Jacob Jones</small>
+                                      <small>{this.cabTicketDetails?.first_ticket?.passenger_name}</small>
                                     </row-element>
                                     <row-element>
                                       <small>phone Number:</small>
-                                      <small>234455444519</small>
+                                      <small>{this.cabTicketDetails?.first_ticket?.phone_number}</small>
                                     </row-element>
                                     <row-element>
                                       <small>ticket No:</small>
-                                      <small>1P47344</small>
+                                      <small>{this.cabTicketDetails?.first_ticket?.ticket_num}</small>
                                     </row-element>
                                     <row-element>
                                       <small>Date:</small>
-                                      <small>21 Oct</small>
+                                      <small>{convertDate(this.cabTicketDetails?.first_ticket?.date)}</small>
                                     </row-element>
                                     <row-element>
                                       <small>Time:</small>
-                                      <small>19:00</small>
+                                      <small>{this.cabTicketDetails?.first_ticket?.time}</small>
                                     </row-element>
                                     <row-element>
                                       <small>From:</small>
-                                      <small>Lagos iKEJA</small>
+                                      <small>{this.cabTicketDetails?.first_ticket?.from}</small>
                                     </row-element>
                                     <row-element>
                                       <small>Destination:</small>
-                                      <small>Abule Egba</small>
+                                      <small>{this.cabTicketDetails?.first_ticket?.destination}</small>
                                     </row-element>
+
+                                    {this.cabTicketDetails.second_ticket ? (
+                                      <div>
+                                        <row-element>
+                                          <small>Return Date:</small>
+                                          <small>{convertDate(this.cabTicketDetails?.second_ticket?.date)}</small>
+                                        </row-element>
+                                        <row-element>
+                                          <small>Return Time:</small>
+                                          <small>{this.cabTicketDetails?.second_ticket?.time}</small>
+                                        </row-element>
+                                        <row-element>
+                                          <small>Return Location:</small>
+                                          <small>{this.cabTicketDetails?.second_ticket?.from}</small>
+                                        </row-element>
+                                        <row-element>
+                                          <small>Return Destination:</small>
+                                          <small>{this.cabTicketDetails?.second_ticket?.destination}</small>
+                                        </row-element>
+                                      </div>
+                                    ) : null}
+                                    
                                   </div>
                                 </section>
 
@@ -911,7 +982,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                                   <div class="mt-10 space-y-8">
                                     <row-element>
                                       <small>estimated Total:</small>
-                                      <small class="font-bold">7,900 NGN - 10,900 NGN</small>
+                              <small class="font-bold">{this.estimatePrice?.first_cost?.est_min} - {this.estimatePrice?.first_cost?.est_max}</small>
                                     </row-element>
                                   </div>
                                 </section>
