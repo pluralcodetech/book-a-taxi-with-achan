@@ -1,4 +1,4 @@
-import { Component, getAssetPath, h, Prop, State, Watch} from '@stencil/core';
+import { Component, getAssetPath, h, Prop, State, Watch, Event} from '@stencil/core';
 import { createStore } from "@stencil/store";
 import { handleErrors } from '../actions';
 
@@ -89,7 +89,6 @@ export class AchhanModal {
   @State() storeFromDropDown: any;
   @State() destinationState: any;
 
-  // @State() myCoolObject;
   @State() roadTrip : roadtripType = {
     firstName: "",
     surname: "",
@@ -105,6 +104,7 @@ export class AchhanModal {
   };
 
   @State() roadTripValid: boolean = false;
+  @State() estimatePrice;
 
   // validation States
 
@@ -129,22 +129,9 @@ export class AchhanModal {
   @Prop({ reflect: true, mutable: true }) id: string;
 
 
-  //
-  // this.roadTrip = {
-  //   firstName: "",
-  //   surname: "",
-  //   phoneNumber: "",
-  //   emailAddress: "",
-  //   from: "",
-  //   destination: "",
-  //   date: "",
-  //   returnDate: "",
-  //   time: "",
-  //   returnTime: "",
-  //   destinationAddress: "",
-  // }
-  
-  // this.myCoolObject = {first: '1', second: '2'}
+  // Get roadTripForm details from LocalStorage
+  @State() tripsDetails = JSON.parse(localStorage.getItem('roadTripForm')) 
+
 
 
 @Watch('roadTrip')
@@ -153,11 +140,7 @@ watchStateHandler(newValue: any, oldValue: any) {
     console.log('The new value of roadTrip is: ', newValue);
   }
 
-
- 
-  
-  
-  // @Watch('getId')
+  @Event({bubbles: true, composed: true}) 
 
   
   
@@ -172,16 +155,20 @@ watchStateHandler(newValue: any, oldValue: any) {
     }
 
 
-    
-    
+  
     // if (this.storeFromDropDown) {
     //   this.callDestinationDataApi(this.storeFromDropDown);
     // }
 
-    if (this.storeFromDropDown) {
-      this.callDestinationDataApi();
+    // if (this.storeFromDropDown) {
+    //   this.callDestinationDataApi();
 
-    }
+    // }
+
+    // if (this.tripsDetails.returnDate && this.tripsDetails.returnTime) {
+    //   this.callEstimatedDataApi();
+    // }
+
     // this.callDestinationDataApi();
 
 
@@ -215,11 +202,33 @@ watchStateHandler(newValue: any, oldValue: any) {
 
   componentWillUpdate() { 
     // this.callDestinationDataApi();
-    if (this.storeFromDropDown) {
-      this.callDestinationDataApi();
+    // if (this.storeFromDropDown) {
+    //   this.callDestinationDataApi();
 
-    }
+    // }
+
+    // if (this.bookingDetails  && this.tripsDetails.returnDate && this.tripsDetails.returnTime) {
+    //   this.callEstimatedDataApi();
+    // }
+
+    // if (this.tripsDetails.returnDate && this.tripsDetails.returnTime) {
+    //   this.callEstimatedDataApi();
+    // }
   };
+
+
+
+  // componentDidUpdate() {
+  //   if (this.tripsDetails.returnDate && this.tripsDetails.returnTime) {
+  //     this.callEstimatedDataApi();
+  //   }
+  // }
+
+  // disconnectedCallback() {
+  //   if (this.tripsDetails.returnDate && this.tripsDetails.returnTime) {
+  //     this.callEstimatedDataApi();
+  //   }
+  // }
 
   
   
@@ -237,6 +246,8 @@ watchStateHandler(newValue: any, oldValue: any) {
     this.fromDropDown = json;
     // console.log(json)
   };
+
+  
   
   closeModal() {
     this.opened = false;
@@ -256,8 +267,7 @@ watchStateHandler(newValue: any, oldValue: any) {
   }
 
   onBookChange() {
-    // this.showFormContent = true;
-    // this.bookingDetails = true;
+  
     // console.log(this.roadTrip);
 
     if (!this.roadTripValid) {
@@ -311,6 +321,22 @@ watchStateHandler(newValue: any, oldValue: any) {
         this.roadTripValid = true;
         console.log(this.roadTrip);
         localStorage.setItem("roadTripForm", JSON.stringify(this.roadTrip))
+
+        this.callEstimatedDataApi()
+        // 
+        this.showFormContent = true;
+        this.bookingDetails = true;
+
+        this.roadTrip.firstName = '';
+        this.roadTrip.surname = '';
+        this.roadTrip.phoneNumber = '';
+        this.roadTrip.emailAddress = '';
+        this.roadTrip.destinationAddress = '';
+        this.roadTrip.date = '';
+        this.roadTrip.returnDate = '';
+        this.roadTrip.time = '';
+        this.roadTrip.returnTime = '';
+        this.roadTrip.destinationAddress = '';
       } else {
         this.roadTripValid = false;
       }
@@ -353,6 +379,7 @@ watchStateHandler(newValue: any, oldValue: any) {
   handleSecondSelect(event) {
     this.storeFromDropDown = event.target.value;
     this.roadTrip.from = event.target.value;
+    this.callDestinationDataApi();
     
   }
 
@@ -376,8 +403,31 @@ watchStateHandler(newValue: any, oldValue: any) {
 
     let json = await response.json();
     this.destinationState = json;
-    // console.log(json)
-  }
+  };
+
+  callEstimatedDataApi = async () => {
+    let estimatedData: FormData = new FormData();
+    estimatedData.append('id', this.roadTrip.from);
+    estimatedData.append('destination', this.roadTrip.destination);
+    estimatedData.append('dest_address', this.roadTrip.destinationAddress);
+    estimatedData.append('date', this.roadTrip.date);
+    estimatedData.append('time', this.roadTrip.time);
+    estimatedData.append('returndate', this.roadTrip.returnDate);
+    estimatedData.append('returntime', this.roadTrip.returnTime);
+
+
+
+    const response = await fetch(`https://watchoutachan.herokuapp.com/api/estimate`,
+      {
+        method: 'post',
+        body: estimatedData,
+      }
+    );
+    handleErrors(response);
+
+    let json = await response.json();
+    this.estimatePrice = json;
+  };
   
   // 
   handleChange(event) {
@@ -388,6 +438,9 @@ watchStateHandler(newValue: any, oldValue: any) {
     
   }
   render() {
+
+    console.log(this.estimatePrice?.first_cost)
+    
     // console.log(this.errorMessage)
     // console.log(this.roadTrip);
 // console.log(this.storeFromDropDown)
@@ -402,7 +455,8 @@ watchStateHandler(newValue: any, oldValue: any) {
                 <div class="sm:w-3/6">
                   <label class="block text-gray-400 text-sm font-light mb-2">Firstname</label>
                   <input
-                    name ="firstName"
+                    name="firstName"
+                    value={this.roadTrip.firstName}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
                     onInput={(e) => this.handleChange(e)}
                     required
@@ -413,6 +467,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Surname</label>
                   <input
                     name="surname"
+                    value={this.roadTrip.surname}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
                     required
@@ -426,6 +481,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Phone Number</label>
                   <input
                     name='phoneNumber'
+                    value={this.roadTrip.phoneNumber}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
                     required
@@ -436,6 +492,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Email Address</label>
                   <input
                     name="emailAddress"
+                    value={this.roadTrip.emailAddress}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="email"
                     required
@@ -497,6 +554,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Date</label>
                   <input
                     name="date"
+                    value={this.roadTrip.date}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"
                     required
@@ -507,6 +565,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Return Date</label>
                   <input
                     name="returnDate"
+                    value={this.roadTrip.returnDate}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"
                     required
@@ -519,6 +578,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Time</label>
                   <input
                     name="time"
+                    value={this.roadTrip.time}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"
                     required
@@ -529,6 +589,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Return Time</label>
                   <input
                     name="returnTime"
+                    value={this.roadTrip.returnTime}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"
                     required
@@ -541,6 +602,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Destination Address</label>
                   <input
                     name="destinationAddress"
+                    value={this.roadTrip.destinationAddress}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
                     required
@@ -705,8 +767,35 @@ watchStateHandler(newValue: any, oldValue: any) {
                         ) : null}
 
                         {this.bookingDetails ? (
-                          <div class="px-4 pt-10 pb-16">
-                            <modal-booking-details></modal-booking-details>
+                          <div class="px-4  pt-10 pb-16">
+                              <div >
+                                  <div class="mb-5">
+                                      <modal-booking-details
+                                        date={this.tripsDetails.date} //date
+                                        time={this.tripsDetails.time} //time
+                                        airport={this.estimatePrice?.first_cost?.from}
+                                        destinationAddress={this.estimatePrice?.first_cost?.to}
+                                        destination={this.tripsDetails.destination} //destination
+                                        estimatedPriceMax={this.estimatePrice?.first_cost?.est_max}
+                                        estimatedPriceMin={this.estimatePrice?.first_cost?.est_min}
+                                      ></modal-booking-details>
+                                  </div>
+                              
+                      
+                                    {this.tripsDetails.returnDate && this.tripsDetails.returnTime ?
+                                      (
+                                        <modal-booking-details
+                                          date={this.tripsDetails.returnDate} //date
+                                          time={this.tripsDetails.returnTime} //time
+                                          airport={this.estimatePrice?.second_cost?.from}
+                                          destinationAddress={this.estimatePrice?.second_cost?.to}
+                                          destination={this.tripsDetails.destination} //destination
+                                          estimatedPriceMax={this.estimatePrice?.second_cost?.est_max}
+                                          estimatedPriceMin={this.estimatePrice?.second_cost?.est_min}
+                                        ></modal-booking-details>
+                                      ) : null
+                                    }
+                            </div>
 
                             <div class="flex flex-col  space-y-6">
                               <button 

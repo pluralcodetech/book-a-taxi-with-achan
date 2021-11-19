@@ -24,6 +24,7 @@ export declare class AchhanModal {
   destinationState: any;
   roadTrip: roadtripType;
   roadTripValid: boolean;
+  estimatePrice: any;
   firstNameErrMsg: any;
   surnameErrMsg: any;
   phoneNumberErrMsg: any;
@@ -41,6 +42,7 @@ export declare class AchhanModal {
   emailIcon: string;
   opened: boolean;
   id: string;
+  tripsDetails: any;
   watchStateHandler(newValue: any, oldValue: any): void;
   componentWillLoad(): void;
   componentWillUpdate(): void;
@@ -54,6 +56,7 @@ export declare class AchhanModal {
   openDriverDetails(): void;
   handleSecondSelect(event: any): void;
   callDestinationDataApi: () => Promise<void>;
+  callEstimatedDataApi: () => Promise<void>;
   handleChange(event: any): void;
   render(): any;
 }

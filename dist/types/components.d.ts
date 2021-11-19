@@ -15,15 +15,14 @@ export namespace Components {
         "previousBtn": string;
     }
     interface ModalBookingDetails {
-        "date1": string | number;
-        "date2": string | number;
+        "airport": string;
+        "date": string | number;
+        "destination": string;
+        "destinationAddress": string;
         "dottedLines": string;
-        "estimatedPrice": number;
-        "from": string;
-        "location1": string;
-        "location2": string;
-        "time1": string | number;
-        "time2": string | number;
+        "estimatedPriceMax": string | number;
+        "estimatedPriceMin": string | number;
+        "time": string | number;
     }
     interface OneWayContent {
         "onBookChange": () => void;
@@ -73,15 +72,14 @@ declare namespace LocalJSX {
         "previousBtn"?: string;
     }
     interface ModalBookingDetails {
-        "date1"?: string | number;
-        "date2"?: string | number;
+        "airport"?: string;
+        "date"?: string | number;
+        "destination"?: string;
+        "destinationAddress"?: string;
         "dottedLines"?: string;
-        "estimatedPrice"?: number;
-        "from"?: string;
-        "location1"?: string;
-        "location2"?: string;
-        "time1"?: string | number;
-        "time2"?: string | number;
+        "estimatedPriceMax"?: string | number;
+        "estimatedPriceMin"?: string | number;
+        "time"?: string | number;
     }
     interface OneWayContent {
         "onBookChange"?: () => void;
