@@ -39,6 +39,7 @@ export declare class AchhanModal {
   estimatePrice: any;
   globalTrips: any;
   cabTicketDetails: any;
+  driverDetailsState: any;
   firstNameErrMsg: any;
   surnameErrMsg: any;
   phoneNumberErrMsg: any;
@@ -65,6 +66,7 @@ export declare class AchhanModal {
   onContentChange(content: string): void;
   onBookChange(): void;
   previousChange(): void;
+  backToDriverDetails(): void;
   openConfirmBooking(): void;
   cabTicketChange(): void;
   openDriverDetails(): void;
@@ -73,6 +75,7 @@ export declare class AchhanModal {
   callDestinationDataApi: () => Promise<void>;
   callEstimatedDataApi: () => Promise<void>;
   callConfirmBookingApi: () => Promise<void>;
+  callDriverDetailsApi: () => Promise<void>;
   render(): any;
 }
 export {};

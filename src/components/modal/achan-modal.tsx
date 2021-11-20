@@ -136,6 +136,7 @@ export class AchhanModal {
   @State() estimatePrice;
   @State() globalTrips;
   @State() cabTicketDetails;
+  @State() driverDetailsState;
 
   // validation States
 
@@ -431,6 +432,15 @@ watchStateHandler(newValue: any, oldValue: any) {
     this.confirmBooking = false;
   }
 
+  backToDriverDetails() {
+    this.driverDetails = false;
+    this.showFormContent = true;
+    this.bookingDetails = false;
+    this.confirmBooking = false;
+    this.cabTicket = true;
+    
+  }
+
   openConfirmBooking() {
     this.callConfirmBookingApi()
     this.showTitleText = false;
@@ -448,6 +458,7 @@ watchStateHandler(newValue: any, oldValue: any) {
   }
 
   openDriverDetails() {
+    this.callDriverDetailsApi();
     this.showFormContent = true;
     this.bookingDetails = false;
     this.confirmBooking = false;
@@ -565,11 +576,37 @@ watchStateHandler(newValue: any, oldValue: any) {
     let json = await response.json();
     this.cabTicketDetails = json;
   };
+// this.cabTicketDetails?.first_ticket?
+// this.cabTicketDetails?.second_ticket?
+  // trip_id
+
+  callDriverDetailsApi = async () => {
+    let driverDetails: FormData = new FormData();
+
+    driverDetails.append('id', this.cabTicketDetails?.first_ticket?.trip_id);
+    // if (this.globalTrips?.returnDate && this.globalTrips?.returnTime) { 
+    //   driverDetails.append('id', this.cabTicketDetails?.first_ticket?.trip_id);
+    // };
+    
+
+    const response = await fetch(`https://watchoutachan.herokuapp.com/api/drivers_info`,
+      {
+        method: 'post',
+        body: driverDetails,
+      }
+    );
+    handleErrors(response);
+
+    let json = await response.json();
+    this.driverDetailsState = json;
+  };
 
   render() {
     console.log(this.globalTrips);
+    // console.log(this.globalTrips);
     
-    console.log(this.cabTicketDetails); 
+    console.log(this.driverDetailsState); 
+
       let roadTripContent = <slot/>
       if(!this.showTripsContent) {
           roadTripContent = (
@@ -909,6 +946,16 @@ watchStateHandler(newValue: any, oldValue: any) {
                                   alt="previous-icon"/>
                               ) : null 
                             }
+                    
+                            {this.driverDetails ? (
+                              <img 
+                                  onClick={this.backToDriverDetails.bind(this)}  
+                                  class="mr-6" 
+                                  src={getAssetPath(`../assets/${this.previousBtn}`)} 
+                                  alt="previous-icon"/>
+                              ) : null
+                            }
+                            
                             
                             {this.showTitleText ? (
                               <h4 class="text-xl font-semibold text-blue-600 text-center">
@@ -1117,7 +1164,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                                   <div class="mt-10 space-y-8">
                                     <row-element>
                                       <small>estimated Total:</small>
-                              <small class="font-bold">{this.estimatePrice?.first_cost?.est_min} - {this.estimatePrice?.first_cost?.est_max}</small>
+                              <small class="font-bold">{this.estimatePrice?.first_cost?.est_min || this.estimatePrice?.est_min} - {this.estimatePrice?.first_cost?.est_max || this.estimatePrice?.est_max}</small>
                                     </row-element>
                                   </div>
                                 </section>
