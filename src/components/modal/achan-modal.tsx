@@ -24,17 +24,17 @@ interface roadtripType {
 }
 
 
-// interface  oneWayType { 
-//   firstName: string,
-//   surname: string,
-//   phoneNumber: string | number,
-//   emailAddress: string,
-//   from: string,
-//   destination: string | number,
-//   date: string | number,
-//   returnDate: string,
-//   destinationAddress: string | number,
-// }
+interface  oneWayType { 
+  firstName: string,
+  surname: string,
+  phoneNumber: string,
+  emailAddress: string,
+  from: string,
+  destination: string,
+  date: string,
+  time: string,
+  destinationAddress: string,
+}
 
 // const storeRoadTripFormContent = createStore <roadtripType>({
   // firstName: "",
@@ -90,6 +90,22 @@ export class AchhanModal {
   @State() storeFromDropDown: any;
   @State() destinationState: any;
 
+  // @State() roadTrip : roadtripType = {
+  //   firstName: "",
+  //   surname: "",
+  //   phoneNumber: "",
+  //   emailAddress: "",
+  //   from: "",
+  //   destination: "",
+  //   date: "",
+  //   returnDate: "",
+  //   time: "",
+  //   returnTime: "",
+  //   destinationAddress: "",
+  // };
+
+  
+
   @State() roadTrip : roadtripType = {
     firstName: "",
     surname: "",
@@ -104,8 +120,21 @@ export class AchhanModal {
     destinationAddress: "",
   };
 
+    @State() onewayTrip : oneWayType = {
+      firstName: "",
+      surname: "",
+      phoneNumber: "",
+      emailAddress: "",
+      from: "",
+      destination: "",
+      date: "",
+      time: "",
+      destinationAddress: "",
+    };
+
   @State() roadTripValid: boolean = false;
   @State() estimatePrice;
+  @State() globalTrips;
   @State() cabTicketDetails;
 
   // validation States
@@ -272,7 +301,7 @@ watchStateHandler(newValue: any, oldValue: any) {
   
     // console.log(this.roadTrip);
 
-    if (!this.roadTripValid) {
+    if (!this.roadTripValid && !this.showTripsContent) {
       if (this.roadTrip.firstName.trim() === '') {
         this.firstNameErrMsg = 'First Name is required';
       }
@@ -321,24 +350,71 @@ watchStateHandler(newValue: any, oldValue: any) {
         && this.roadTrip.destinationAddress.trim() !== ''
       ) {
         this.roadTripValid = true;
-        console.log(this.roadTrip);
+        this.globalTrips = this.roadTrip;
+        console.log(this.globalTrips);
         localStorage.setItem("roadTripForm", JSON.stringify(this.roadTrip))
 
         this.callEstimatedDataApi()
         // 
         this.showFormContent = true;
         this.bookingDetails = true;
+      } else {
+        this.roadTripValid = false;
+      }
 
-        // this.roadTrip.firstName = '';
-        // this.roadTrip.surname = '';
-        // this.roadTrip.phoneNumber = '';
-        // this.roadTrip.emailAddress = '';
-        // this.roadTrip.destinationAddress = '';
-        // this.roadTrip.date = '';
-        // this.roadTrip.returnDate = '';
-        // this.roadTrip.time = '';
-        // this.roadTrip.returnTime = '';
-        // this.roadTrip.destinationAddress = '';
+      
+    }
+    
+    if (!this.roadTripValid && this.showTripsContent) {
+      if (this.onewayTrip.firstName.trim() === '') {
+        this.firstNameErrMsg = 'First Name is required';
+      }
+      if (this.onewayTrip.surname.trim() === '') {
+        this.surnameErrMsg = 'Surname is required';
+      }
+      if (this.onewayTrip.phoneNumber.trim() === '') {
+        this.phoneNumberErrMsg = 'Phone Number is required';
+      }
+      if (this.onewayTrip.emailAddress.trim() === '') {
+        this.emailAddressErrMsg = 'Email Address is required';
+      }
+      if (this.onewayTrip.from.trim() === '') {
+        this.fromErrMsg = 'From is required';
+      }
+      if (this.onewayTrip.destination.trim() === '') {
+        this.destinationErrMsg = 'Destination is required';
+      }
+      if (this.onewayTrip.date.trim() === '') {
+        this.dateErrMsg = 'Date is required';
+      }
+      
+      if (this.onewayTrip.time.trim() === '') {
+        this.timeErrMsg = 'Time is required';
+      }
+      if (this.onewayTrip.destinationAddress.trim() === '') {
+        this.destinationAddressErrMsg = 'Destination Address is required';
+      }
+
+      if (
+        this.onewayTrip.firstName.trim() !== ''
+        && this.onewayTrip.surname.trim() !== ''
+        && this.onewayTrip.phoneNumber.trim() !== ''
+        && this.onewayTrip.emailAddress.trim() !== ''
+        && this.onewayTrip.from.trim() !== ''
+        && this.onewayTrip.destination.trim() !== ''
+        && this.onewayTrip.date.trim() !== ''
+        && this.onewayTrip.time.trim() !== ''
+        && this.onewayTrip.destinationAddress.trim() !== ''
+      ) {
+        this.roadTripValid = true;
+        this.globalTrips = this.onewayTrip;
+        console.log(this.globalTrips);
+        // localStorage.setItem("roadTripForm", JSON.stringify(this.roadTrip))
+
+        this.callEstimatedDataApi()
+        // 
+        this.showFormContent = true;
+        this.bookingDetails = true;
       } else {
         this.roadTripValid = false;
       }
@@ -382,21 +458,31 @@ watchStateHandler(newValue: any, oldValue: any) {
   
   handleSecondSelect(event) {
     this.storeFromDropDown = event.target.value;
-    this.roadTrip.from = event.target.value;
+    if (!this.showTripsContent) {
+      this.roadTrip.from = event.target.value;
+    }
+
+    if (this.showTripsContent) {
+      this.onewayTrip.from = event.target.value;
+    }
+    
     this.callDestinationDataApi();
     
   }
 
   handleChange(event) {
     const value = event.target.value;
-    // const storeValue = this.roadTrip[event.target.name] = value;
-    this.roadTrip[event.target.name] = value;
     
-    
+    if (!this.showTripsContent) {
+      this.roadTrip[event.target.name] = value;
+    }
+
+    if (this.showTripsContent) {
+      this.onewayTrip[event.target.name] = value;
+    }
   }
 
   callDestinationDataApi = async () => {
-    // console.log(this.storeFromDropDown);
     
     let destiData: FormData = new FormData();
     destiData.append('branchid', this.storeFromDropDown);
@@ -405,10 +491,7 @@ watchStateHandler(newValue: any, oldValue: any) {
     const response = await fetch(`https://watchoutachan.herokuapp.com/api/destinationarea`,
       {
         method: 'post',
-        body: destiData,
-        // headers : { 
-        //   "Content-Type": "multipart/form-data",
-        // }
+        body: destiData
       }
     );
     handleErrors(response);
@@ -419,13 +502,18 @@ watchStateHandler(newValue: any, oldValue: any) {
 
   callEstimatedDataApi = async () => {
     let estimatedData: FormData = new FormData();
-    estimatedData.append('id', this.roadTrip.from);
-    estimatedData.append('destination', this.roadTrip.destination);
-    estimatedData.append('dest_address', this.roadTrip.destinationAddress);
-    estimatedData.append('date', this.roadTrip.date);
-    estimatedData.append('time', this.roadTrip.time);
-    estimatedData.append('returndate', this.roadTrip.returnDate);
-    estimatedData.append('returntime', this.roadTrip.returnTime);
+    estimatedData.append('id', this.globalTrips?.from);
+    estimatedData.append('destination', this.globalTrips?.destination);
+    estimatedData.append('dest_address', this.globalTrips?.destinationAddress);
+    estimatedData.append('date', this.globalTrips?.date);
+    estimatedData.append('time', this.globalTrips?.time);
+    if (this.globalTrips?.returnDate) {
+      estimatedData.append('returndate', this.globalTrips.returnDate);
+    }
+    if (this.globalTrips?.returnTime) {
+      estimatedData.append('returntime', this.globalTrips.returnTime);
+    }
+    
 
 
 
@@ -443,18 +531,24 @@ watchStateHandler(newValue: any, oldValue: any) {
 
   callConfirmBookingApi = async () => {
     let ConfirmBooking: FormData = new FormData();
-    ConfirmBooking.append('firstname', this.roadTrip.firstName);
-    ConfirmBooking.append('surname', this.roadTrip.surname);
-    ConfirmBooking.append('email', this.roadTrip.emailAddress);
-    ConfirmBooking.append('phonenumber', this.roadTrip.phoneNumber);
-    ConfirmBooking.append('airid', this.roadTrip.from);
+    ConfirmBooking.append('firstname', this.globalTrips.firstName);
+    ConfirmBooking.append('surname', this.globalTrips.surname);
+    ConfirmBooking.append('email', this.globalTrips.emailAddress);
+    ConfirmBooking.append('phonenumber', this.globalTrips.phoneNumber);
+    ConfirmBooking.append('airid', this.globalTrips.from);
     ConfirmBooking.append('from', this.estimatePrice?.first_cost?.from);
-    ConfirmBooking.append('to', this.roadTrip.destination);
-    ConfirmBooking.append('date', this.roadTrip.date);
-    ConfirmBooking.append('time', this.roadTrip.time);
-    ConfirmBooking.append('returndate', this.roadTrip.returnDate);
-    ConfirmBooking.append('returntime', this.roadTrip.returnTime);
-    ConfirmBooking.append('dest_address', this.roadTrip.destinationAddress);
+    ConfirmBooking.append('to', this.globalTrips.destination);
+    ConfirmBooking.append('date', this.globalTrips.date);
+    ConfirmBooking.append('time', this.globalTrips.time);
+    if (this.globalTrips?.returnDate) {
+       ConfirmBooking.append('returndate', this.globalTrips.returnDate);
+    }
+    if (this.globalTrips?.returnTime) {
+      ConfirmBooking.append('returntime', this.globalTrips.returnTime);
+    }
+   
+    
+    ConfirmBooking.append('dest_address', this.globalTrips.destinationAddress);
     ConfirmBooking.append('estmin', this.estimatePrice?.first_cost?.est_min);
     ConfirmBooking.append('estmax', this.estimatePrice?.first_cost?.est_max);
 
@@ -471,31 +565,11 @@ watchStateHandler(newValue: any, oldValue: any) {
     let json = await response.json();
     this.cabTicketDetails = json;
   };
-  
-  // 
-  
-
-
 
   render() {
-    console.log(this.cabTicketDetails);
-    // console.log(this.roadTrip.firstName,
-    //   this.roadTrip.surname, this.roadTrip.emailAddress,
-    //   this.roadTrip.phoneNumber, this.roadTrip.from,
-    //   this.estimatePrice?.first_cost?.from, this.roadTrip.destination,
-    //   this.roadTrip.date, this.roadTrip.time, this.roadTrip.returnDate,
-    //   this.roadTrip.returnTime, this.roadTrip.destinationAddress,
-    //   this.estimatePrice?.first_cost?.est_min, this.estimatePrice?.first_cost?.est_max
-    // );
+    console.log(this.globalTrips);
     
-    // console.log(this.estimatePrice?.first_cost)
-    
-    // console.log(this.errorMessage)
-    // console.log(this.roadTrip);
-// console.log(this.storeFromDropDown)
-//     console.log(this.fromDropDown);
-    // console.log(this.id)
-    //Conditionally rendered Road Trip Forms   
+    console.log(this.cabTicketDetails); 
       let roadTripContent = <slot/>
       if(!this.showTripsContent) {
           roadTripContent = (
@@ -676,22 +750,49 @@ watchStateHandler(newValue: any, oldValue: any) {
             <div class="flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
               <div class="sm:w-3/6">
                 <label class="block text-gray-400 text-sm font-light mb-2">Firstname</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+                <input
+                    name="firstName"
+                    value={this.onewayTrip.firstName}
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                    onInput={(e) => this.handleChange(e)}
+                    required
+                  />
+                  <small>{this.firstNameErrMsg}</small>
               </div>
               <div class="sm:w-3/6">
                 <label class="block text-gray-400 text-sm font-light mb-2">Surname</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+                <input
+                  name="surname"
+                  value={this.onewayTrip.surname}
+                  onInput={(e) => this.handleChange(e)}
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                  required
+                />
+                <small>{this.surnameErrMsg}</small>
               </div>
             </div>
 
             <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
               <div class="sm:w-3/6">
                 <label class="block text-gray-400 text-sm font-light mb-2">Phone Number</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+                <input
+                  name='phoneNumber'
+                  value={this.onewayTrip.phoneNumber}
+                  onInput={(e) => this.handleChange(e)}
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                  required
+                />
+                <small>{this.phoneNumberErrMsg}</small>
               </div>
               <div class="sm:w-3/6">
                 <label class="block text-gray-400 text-sm font-light mb-2">Email Address</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="email"  />
+                <input
+                  name="emailAddress"
+                  value={this.onewayTrip.emailAddress}
+                  onInput={(e) => this.handleChange(e)}
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="email"
+                  required
+                  />
               </div>
             </div>
             <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0">
@@ -705,11 +806,17 @@ watchStateHandler(newValue: any, oldValue: any) {
                     </svg>
                     
                   </div>
-                  <select class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none focus:shadow-outline' >
-                    <option value="" selected disabled hidden>select branch </option>
-                    <option>Bread</option>
-                    <option>Rice</option>
-                  </select>
+                  <select
+                      class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline'
+                      onInput={(event) => this.handleSecondSelect(event)} 
+                      required
+                    >
+                      <option value="" selected disabled hidden>select branch </option>
+                        {this.fromDropDown?.map(({userid, branch_location }) => 
+                          <option value={userid} >{branch_location}</option>
+                        )}
+                    </select>
+                    <small>{this.fromErrMsg}</small>
                 </div>
               </div>
               <div class="sm:w-3/6">
@@ -722,28 +829,56 @@ watchStateHandler(newValue: any, oldValue: any) {
                     </svg>
                     
                   </div>
-                  <select class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none focus:shadow-outline' >
-                    <option value="" selected disabled hidden>select branch </option>
-                    <option>Bread</option>
-                    <option>Rice</option>
-                  </select>
+                  <select
+                      name="destination"
+                      onInput={(e) => this.handleChange(e)}
+                      class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline'
+                      required
+                    >
+                      <option value="" selected disabled hidden>select branch </option>
+                        {this.destinationState?.map(({area }) => 
+                          <option value={area} >{area}</option>
+                        )}
+                    </select>
+                    <small>{this.destinationErrMsg}</small>
                 </div>
               </div>
             </div>
             <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0">
               <div class="sm:w-3/6">
                 <label class="block text-gray-400 text-sm font-light mb-2">Date</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"  />
+                <input
+                    name="date"
+                    value={this.onewayTrip.date}
+                    onInput={(e) => this.handleChange(e)}
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"
+                    required
+                  />
+                  <small>{this.dateErrMsg}</small>
               </div>
               <div class="sm:w-3/6">
               <label class="block text-gray-400 text-sm font-light mb-2">Time</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"  />
+                <input
+                    name="time"
+                    value={this.onewayTrip.time}
+                    onInput={(e) => this.handleChange(e)}
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"
+                    required
+                  />
+                  <small>{this.timeErrMsg}</small>
               </div>
             </div>
             <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
               <div class="w-full">
                 <label class="block text-gray-400 text-sm font-light mb-2">Destination Address</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"  />
+                <input
+                  name="destinationAddress"
+                  value={this.onewayTrip.destinationAddress}
+                  onInput={(e) => this.handleChange(e)}
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                  required
+                />
+                  <small>{this.destinationAddressErrMsg}</small>
               </div>
             </div>
             <button 
@@ -820,18 +955,18 @@ watchStateHandler(newValue: any, oldValue: any) {
                               <div >
                                 <div class="mb-5">
                                     <modal-booking-details
-                                      date={this.tripsDetails.date} //date
-                                      time={this.tripsDetails.time} //time
-                                      airport={this.estimatePrice?.first_cost?.from}
-                                      destinationAddress={this.estimatePrice?.first_cost?.to}
-                                      destination={this.tripsDetails.destination} //destination
-                                      estimatedPriceMax={this.estimatePrice?.first_cost?.est_max}
-                                      estimatedPriceMin={this.estimatePrice?.first_cost?.est_min}
+                                      date={this.globalTrips?.date} //date
+                                      time={this.globalTrips?.time} //time
+                                      airport={this.estimatePrice?.first_cost?.from || this.estimatePrice?.from}
+                                      destinationAddress={this.estimatePrice?.first_cost?.to || this.estimatePrice?.to}
+                                      destination={this.globalTrips?.destination} //destination
+                                      estimatedPriceMax={this.estimatePrice?.first_cost?.est_max || this.estimatePrice?.est_max}
+                                      estimatedPriceMin={this.estimatePrice?.first_cost?.est_min || this.estimatePrice?.est_min}
                                     ></modal-booking-details>
                                 </div>
                               
                       
-                                    {this.tripsDetails.returnDate && this.tripsDetails.returnTime ?
+                                    {this.globalTrips.returnDate && this.globalTrips.returnTime ?
                                       (
                                         <modal-booking-details
                                           date={this.tripsDetails.returnDate} //date

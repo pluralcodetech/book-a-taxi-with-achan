@@ -11,6 +11,17 @@ interface roadtripType {
   returnTime: string;
   destinationAddress: string;
 }
+interface oneWayType {
+  firstName: string;
+  surname: string;
+  phoneNumber: string;
+  emailAddress: string;
+  from: string;
+  destination: string;
+  date: string;
+  time: string;
+  destinationAddress: string;
+}
 export declare class AchhanModal {
   showTripsContent: boolean;
   showTitleText: boolean;
@@ -23,8 +34,10 @@ export declare class AchhanModal {
   storeFromDropDown: any;
   destinationState: any;
   roadTrip: roadtripType;
+  onewayTrip: oneWayType;
   roadTripValid: boolean;
   estimatePrice: any;
+  globalTrips: any;
   cabTicketDetails: any;
   firstNameErrMsg: any;
   surnameErrMsg: any;
