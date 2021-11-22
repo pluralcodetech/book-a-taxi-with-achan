@@ -40,6 +40,7 @@ export declare class AchhanModal {
   globalTrips: any;
   cabTicketDetails: any;
   driverDetailsState: any;
+  secondDriverDetailsState: any;
   firstNameErrMsg: any;
   surnameErrMsg: any;
   phoneNumberErrMsg: any;
@@ -60,7 +61,6 @@ export declare class AchhanModal {
   tripsDetails: any;
   watchStateHandler(newValue: any, oldValue: any): void;
   componentWillLoad(): void;
-  componentWillUpdate(): void;
   callFromDataApi: (id: any) => Promise<void>;
   closeModal(): void;
   onContentChange(content: string): void;

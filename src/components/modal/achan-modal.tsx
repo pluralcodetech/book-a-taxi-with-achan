@@ -3,12 +3,6 @@ import { createStore } from "@stencil/store";
 import { handleErrors } from '../actions';
 import convertDate from '../convertDate';
 
-
-// import { store } from '@stencil/redux';
-// import {configureStore} from '../../reduxStatement/store'
-// import fromDropdownAct from '../../reduxStatement/actions/fromDropdownAct';
-
-
 interface roadtripType { 
   firstName: string,
   surname: string,
@@ -36,46 +30,13 @@ interface  oneWayType {
   destinationAddress: string,
 }
 
-// const storeRoadTripFormContent = createStore <roadtripType>({
-  // firstName: "",
-  // surname: "",
-  // phoneNumber: "",
-  // emailAddress: "",
-  // from: "",
-  // destination: "",
-  // date: "",
-  // returnDate: "",
-  // time: "",
-  // returnTime: "",
-  // destinationAddress: "",
-// });
-
-// const storeOneWayFormContent = createStore <oneWayType>({
-//   firstName: "",
-//   surname: "",
-//   phoneNumber: "",
-//   emailAddress: "",
-//   from: "",
-//   destination: "",
-//   date: "",
-//   returnDate: "",
-//   destinationAddress: "",
-// });
-
-// console.log(storeRoadTripFormContent, storeOneWayFormContent)
-
 @Component({
   tag: 'achan-modal',
   styleUrl: 'achan-modal.css',
   shadow: true,
   assetsDirs: ['assets'],
 })
-  
 
-
-
-
-// w-auto items-center
 export class AchhanModal {
 
   @State() showTripsContent = false;
@@ -89,21 +50,6 @@ export class AchhanModal {
   @State() fromDropDown: any;
   @State() storeFromDropDown: any;
   @State() destinationState: any;
-
-  // @State() roadTrip : roadtripType = {
-  //   firstName: "",
-  //   surname: "",
-  //   phoneNumber: "",
-  //   emailAddress: "",
-  //   from: "",
-  //   destination: "",
-  //   date: "",
-  //   returnDate: "",
-  //   time: "",
-  //   returnTime: "",
-  //   destinationAddress: "",
-  // };
-
   
 
   @State() roadTrip : roadtripType = {
@@ -137,6 +83,7 @@ export class AchhanModal {
   @State() globalTrips;
   @State() cabTicketDetails;
   @State() driverDetailsState;
+  @State() secondDriverDetailsState;
 
   // validation States
 
@@ -174,100 +121,16 @@ watchStateHandler(newValue: any, oldValue: any) {
 
   @Event({bubbles: true, composed: true}) 
 
-  
-  
-    
-  // fromDropdownAct: (...args: any) => any;
 
   componentWillLoad() {
-// console.log(this.getId);
 
     if (this.id) {
       this.callFromDataApi(this.id);
     }
-
-
-  
-    // if (this.storeFromDropDown) {
-    //   this.callDestinationDataApi(this.storeFromDropDown);
-    // }
-
-    // if (this.storeFromDropDown) {
-    //   this.callDestinationDataApi();
-
-    // }
-
-    // if (this.tripsDetails.returnDate && this.tripsDetails.returnTime) {
-    //   this.callEstimatedDataApi();
-    // }
-
-    // this.callDestinationDataApi();
-
-
-    
-    // store.setStore(configureStore({}));
-
-    // store.mapStateToProps(this, fromDropdowData => fromDropdowData);
-
-    // if (this.getId) {
-    //      store.mapStateToProps (this, state => {
-    //   const {
-    //     fromDropDownReducer: { fromDropDown, loading, error },
-    //   } = state;
-    //   return {
-    //     fromDropDown,
-    //     loading,
-    //     error,
-    //   };
-    // });
-
-    //   store.mapDispatchToProps(this, {
-    //     fromDropdownAct,
-    //   });
-
-
-
-    //   this.fromDropdownAct(this.getId);
-    // }
- 
   };
-
-  componentWillUpdate() { 
-    // this.callDestinationDataApi();
-    // if (this.storeFromDropDown) {
-    //   this.callDestinationDataApi();
-
-    // }
-
-    // if (this.bookingDetails  && this.tripsDetails.returnDate && this.tripsDetails.returnTime) {
-    //   this.callEstimatedDataApi();
-    // }
-
-    // if (this.tripsDetails.returnDate && this.tripsDetails.returnTime) {
-    //   this.callEstimatedDataApi();
-    // }
-  };
-
-
-
-  // componentDidUpdate() {
-  //   if (this.tripsDetails.returnDate && this.tripsDetails.returnTime) {
-  //     this.callEstimatedDataApi();
-  //   }
-  // }
-
-  // disconnectedCallback() {
-  //   if (this.tripsDetails.returnDate && this.tripsDetails.returnTime) {
-  //     this.callEstimatedDataApi();
-  //   }
-  // }
-
-  
-  
 
   // 
   callFromDataApi = async (id: any) => {
-    // console.log(id);
     
     const response = await fetch(`https://watchoutachan.herokuapp.com/api/airline_branch/${id}`, {
       method: 'post',
@@ -276,7 +139,6 @@ watchStateHandler(newValue: any, oldValue: any) {
 
     let json = await response.json();
     this.fromDropDown = json;
-    // console.log(json)
   };
 
   
@@ -299,8 +161,6 @@ watchStateHandler(newValue: any, oldValue: any) {
   }
 
   onBookChange() {
-  
-    // console.log(this.roadTrip);
 
     if (!this.roadTripValid && !this.showTripsContent) {
       if (this.roadTrip.firstName.trim() === '') {
@@ -584,28 +444,57 @@ watchStateHandler(newValue: any, oldValue: any) {
     let driverDetails: FormData = new FormData();
 
     driverDetails.append('id', this.cabTicketDetails?.first_ticket?.trip_id);
-    // if (this.globalTrips?.returnDate && this.globalTrips?.returnTime) { 
+
+    let secondDriverDetails: FormData = new FormData();
+    secondDriverDetails.append('id', this.cabTicketDetails?.second_ticket?.trip_id);
+
+    // if (this.globalTrips?.returnDate && this.globalTrips?.returnTime) {
     //   driverDetails.append('id', this.cabTicketDetails?.first_ticket?.trip_id);
     // };
     
+    // Promise.all([
+    //   await fetch(`https://watchoutachan.herokuapp.com/api/drivers_info`,
+    //   {
+    //     method: 'post',
+    //     body: driverDetails,
+    //   }).then(res => res.json()),
+    //   await fetch(`https://watchoutachan.herokuapp.com/api/drivers_info`,
+    //   {
+    //     method: 'post',
+    //     body: secondDriverDetails,
+    //   }).then(res => res.json()),
+    // ]).then(([driverDtl, driverDtl2]) => {
+    //   console.log(driverDtl);
+    //   console.log(driverDtl2);
 
-    const response = await fetch(`https://watchoutachan.herokuapp.com/api/drivers_info`,
-      {
-        method: 'post',
-        body: driverDetails,
-      }
-    );
-    handleErrors(response);
+    //   this.driverDetailsState = driverDtl;
+    //   this.secondDriverDetailsState = driverDtl2;
+    // }).catch((err) => {
+    //   console.log(err);
+    // });
+    // handleErrors(response);
+    
 
-    let json = await response.json();
-    this.driverDetailsState = json;
+    // const response = await fetch(`https://watchoutachan.herokuapp.com/api/drivers_info`,
+    //   {
+    //     method: 'post',
+    //     body: driverDetails,
+    //   }
+    // );
+    // handleErrors(response);
+
+    // let json = await response.json();
+    // this.driverDetailsState = json;
+
+    // destinationAddressErrMsg
   };
 
   render() {
     console.log(this.globalTrips);
     // console.log(this.globalTrips);
     
-    console.log(this.driverDetailsState); 
+    // console.log(this.driverDetailsState); 
+    // console.log(this.secondDriverDetailsState); 
 
       let roadTripContent = <slot/>
       if(!this.showTripsContent) {
