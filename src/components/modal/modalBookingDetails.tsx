@@ -1,5 +1,6 @@
 import { Component, Prop, h, getAssetPath, Watch } from "@stencil/core";
 import convertDate from "../convertDate";
+import toCurrency from "../useFulSnippets/toCurrency";
 
 @Component({
     tag : 'modal-booking-details',
@@ -59,7 +60,7 @@ export class ModalBookingDetails {
                             <small class="text-sm">{ this.airport}</small>
                             
                         </div>
-                        <div class='flex justify-between mt-16 sm:mt-20 space-x-4 sm:space-x-0 items-end'>
+                        <div class='flex justify-between mt-16 sm:mt-14 space-x-4 sm:space-x-0 items-end'>
                             <div class="flex flex-col  space-y-2 sm:space-y-1 ">
                                 <small class="text-sm font-semibold">to</small>
                                 <small class="text-xs">{convertDate(this.date)}</small>
@@ -68,7 +69,7 @@ export class ModalBookingDetails {
                             </div>
                             <div class="flex flex-col  space-y-1 ">
                                 <label class="text-xs sm:text-sm font-semibold">Estimated Price</label>
-                                <small class="text-xs sm:text-sm">{this.estimatedPriceMin} - {this.estimatedPriceMax}</small>
+                                <small class="text-xs sm:text-sm">{toCurrency(this.estimatedPriceMin, "NGN" )} - {toCurrency(this.estimatedPriceMax, "NGN" )}</small>
                             </div>
                             
                             
