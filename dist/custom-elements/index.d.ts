@@ -14,6 +14,12 @@ export const ModalBookingDetails: {
   new (): ModalBookingDetails;
 };
 
+interface ModalBotton extends Components.ModalBotton, HTMLElement {}
+export const ModalBotton: {
+  prototype: ModalBotton;
+  new (): ModalBotton;
+};
+
 interface OneWayContent extends Components.OneWayContent, HTMLElement {}
 export const OneWayContent: {
   prototype: OneWayContent;

@@ -506,7 +506,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <input
                     name="firstName"
                     value={this.roadTrip.firstName}
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                     onInput={(e) => this.handleChange(e)}
                     required
                   />
@@ -518,7 +518,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                     name="surname"
                     value={this.roadTrip.surname}
                     onInput={(e) => this.handleChange(e)}
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                     required
                   />
                   <small>{this.surnameErrMsg}</small>
@@ -532,7 +532,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                     name='phoneNumber'
                     value={this.roadTrip.phoneNumber}
                     onInput={(e) => this.handleChange(e)}
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                     required
                   />
                   <small>{this.phoneNumberErrMsg}</small>
@@ -543,7 +543,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                     name="emailAddress"
                     value={this.roadTrip.emailAddress}
                     onInput={(e) => this.handleChange(e)}
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="email"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="email"
                     required
                   />
                   <small>{this.emailAddressErrMsg}</small>
@@ -561,7 +561,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                       
                     </div>
                     <select
-                      class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline'
+                      class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600'
                       onInput={(event) => this.handleSecondSelect(event)} 
                       required
                     >
@@ -586,7 +586,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                     <select
                       name="destination"
                       onInput={(e) => this.handleChange(e)}
-                      class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline'
+                      class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600'
                       required
                     >
                       <option value="" selected disabled hidden>select branch </option>
@@ -598,14 +598,14 @@ watchStateHandler(newValue: any, oldValue: any) {
                   </div>
                 </div>
               </div>
-              <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
+              <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 focus:ring-2 focus:ring-blue-600">
                 <div class="sm:w-3/6">
                   <label class="block text-gray-400 text-sm font-light mb-2">Date</label>
                   <input
                     name="date"
                     value={this.roadTrip.date}
                     onInput={(e) => this.handleChange(e)}
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="date"
                     required
                   />
                   <small>{this.dateErrMsg}</small>
@@ -616,7 +616,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                     name="returnDate"
                     value={this.roadTrip.returnDate}
                     onInput={(e) => this.handleChange(e)}
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="date"
                     required
                   />
                   <small>{this.returnDateErrMsg}</small>
@@ -629,7 +629,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                     name="time"
                     value={this.roadTrip.time}
                     onInput={(e) => this.handleChange(e)}
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="time"
                     required
                   />
                   <small>{this.timeErrMsg}</small>
@@ -640,20 +640,20 @@ watchStateHandler(newValue: any, oldValue: any) {
                     name="returnTime"
                     value={this.roadTrip.returnTime}
                     onInput={(e) => this.handleChange(e)}
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="time"
                     required
                   />
                   <small>{this.returnTimeErrMsg}</small>
                 </div>
               </div>
-              <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
+              <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 focus:ring-2 focus:ring-blue-600">
                 <div class="w-full">
                   <label class="block text-gray-400 text-sm font-light mb-2">Destination Address</label>
                   <input
                     name="destinationAddress"
                     value={this.roadTrip.destinationAddress}
                     onInput={(e) => this.handleChange(e)}
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                     required
                   />
                   <small>{this.destinationAddressErrMsg}</small>
@@ -679,7 +679,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                 <input
                     name="firstName"
                     value={this.onewayTrip.firstName}
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                     onInput={(e) => this.handleChange(e)}
                     required
                   />
@@ -691,7 +691,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   name="surname"
                   value={this.onewayTrip.surname}
                   onInput={(e) => this.handleChange(e)}
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                   required
                 />
                 <small>{this.surnameErrMsg}</small>
@@ -705,7 +705,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   name='phoneNumber'
                   value={this.onewayTrip.phoneNumber}
                   onInput={(e) => this.handleChange(e)}
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                   required
                 />
                 <small>{this.phoneNumberErrMsg}</small>
@@ -716,7 +716,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   name="emailAddress"
                   value={this.onewayTrip.emailAddress}
                   onInput={(e) => this.handleChange(e)}
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="email"
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="email"
                   required
                   />
               </div>
@@ -733,7 +733,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                     
                   </div>
                   <select
-                      class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline'
+                      class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600'
                       onInput={(event) => this.handleSecondSelect(event)} 
                       required
                     >
@@ -758,7 +758,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <select
                       name="destination"
                       onInput={(e) => this.handleChange(e)}
-                      class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline'
+                      class='shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600'
                       required
                     >
                       <option value="" selected disabled hidden>select branch </option>
@@ -777,7 +777,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                     name="date"
                     value={this.onewayTrip.date}
                     onInput={(e) => this.handleChange(e)}
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="date"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="date"
                     required
                   />
                   <small>{this.dateErrMsg}</small>
@@ -788,7 +788,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                     name="time"
                     value={this.onewayTrip.time}
                     onInput={(e) => this.handleChange(e)}
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="time"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="time"
                     required
                   />
                   <small>{this.timeErrMsg}</small>
@@ -801,7 +801,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                   name="destinationAddress"
                   value={this.onewayTrip.destinationAddress}
                   onInput={(e) => this.handleChange(e)}
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline" type="text"
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                   required
                 />
                   <small>{this.destinationAddressErrMsg}</small>

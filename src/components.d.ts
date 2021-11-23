@@ -24,6 +24,10 @@ export namespace Components {
         "estimatedPriceMin": string | number;
         "time": string | number;
     }
+    interface ModalBotton {
+        "externalbtn": string;
+        "id": string;
+    }
     interface OneWayContent {
         "onBookChange": () => void;
     }
@@ -43,6 +47,12 @@ declare global {
         prototype: HTMLModalBookingDetailsElement;
         new (): HTMLModalBookingDetailsElement;
     };
+    interface HTMLModalBottonElement extends Components.ModalBotton, HTMLStencilElement {
+    }
+    var HTMLModalBottonElement: {
+        prototype: HTMLModalBottonElement;
+        new (): HTMLModalBottonElement;
+    };
     interface HTMLOneWayContentElement extends Components.OneWayContent, HTMLStencilElement {
     }
     var HTMLOneWayContentElement: {
@@ -58,6 +68,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "achan-modal": HTMLAchanModalElement;
         "modal-booking-details": HTMLModalBookingDetailsElement;
+        "modal-botton": HTMLModalBottonElement;
         "one-way-content": HTMLOneWayContentElement;
         "row-element": HTMLRowElementElement;
     }
@@ -81,6 +92,10 @@ declare namespace LocalJSX {
         "estimatedPriceMin"?: string | number;
         "time"?: string | number;
     }
+    interface ModalBotton {
+        "externalbtn"?: string;
+        "id"?: string;
+    }
     interface OneWayContent {
         "onBookChange"?: () => void;
     }
@@ -89,6 +104,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "achan-modal": AchanModal;
         "modal-booking-details": ModalBookingDetails;
+        "modal-botton": ModalBotton;
         "one-way-content": OneWayContent;
         "row-element": RowElement;
     }
@@ -99,6 +115,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "achan-modal": LocalJSX.AchanModal & JSXBase.HTMLAttributes<HTMLAchanModalElement>;
             "modal-booking-details": LocalJSX.ModalBookingDetails & JSXBase.HTMLAttributes<HTMLModalBookingDetailsElement>;
+            "modal-botton": LocalJSX.ModalBotton & JSXBase.HTMLAttributes<HTMLModalBottonElement>;
             "one-way-content": LocalJSX.OneWayContent & JSXBase.HTMLAttributes<HTMLOneWayContentElement>;
             "row-element": LocalJSX.RowElement & JSXBase.HTMLAttributes<HTMLRowElementElement>;
         }
