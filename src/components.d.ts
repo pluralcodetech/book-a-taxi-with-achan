@@ -9,10 +9,10 @@ export namespace Components {
     interface AchanModal {
         "callIcon": string;
         "carIcon": string;
-        "emailIcon": string;
         "id": string;
         "opened": boolean;
         "previousBtn": string;
+        "whatappIcon": string;
     }
     interface ModalBookingDetails {
         "airport": string;
@@ -77,10 +77,10 @@ declare namespace LocalJSX {
     interface AchanModal {
         "callIcon"?: string;
         "carIcon"?: string;
-        "emailIcon"?: string;
         "id"?: string;
         "opened"?: boolean;
         "previousBtn"?: string;
+        "whatappIcon"?: string;
     }
     interface ModalBookingDetails {
         "airport"?: string;

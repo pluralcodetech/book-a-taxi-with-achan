@@ -1,5 +1,6 @@
 import { Component, Prop, h, getAssetPath, Watch } from "@stencil/core";
 import convertDate from "../convertDate";
+import convertTime from "../useFulSnippets/convertTime";
 import toCurrency from "../useFulSnippets/toCurrency";
 
 @Component({
@@ -50,13 +51,13 @@ export class ModalBookingDetails {
        
                 <figcaption class="flex w-full">
                     <div>
-                        <img class="mr-4 h-72 sm:h-64" src={getAssetPath(`../assets/${this.dottedLines}`)} alt="previous-icon"/>
+                        <img class="mr-4 h-full sm:h-64" src={getAssetPath(`../assets/${this.dottedLines}`)} alt="previous-icon"/>
                     </div>
                     <div class="text-white w-full">
                         <div class="flex flex-col space-y-2 sm:space-y-1">
                             <small class="text-sm font-semibold">from</small>
                             <small class="text-xs">{convertDate(this.date)}</small>
-                            <small class="text-lg">{this.time }</small>
+                            <small class="text-lg">{convertTime(this.time)}</small>
                             <small class="text-sm">{ this.airport}</small>
                             
                         </div>
@@ -64,7 +65,7 @@ export class ModalBookingDetails {
                             <div class="flex flex-col  space-y-2 sm:space-y-1 ">
                                 <small class="text-sm font-semibold">to</small>
                                 <small class="text-xs">{convertDate(this.date)}</small>
-                                <small class="text-lg"> {this.time}</small>
+                                <small class="text-lg"> {convertTime(this.time)}</small>
                                 <small class="text-lg">{this.destinationAddress} </small>
                             </div>
                             <div class="flex flex-col  space-y-1 ">

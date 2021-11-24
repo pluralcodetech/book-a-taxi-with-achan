@@ -55,7 +55,7 @@ export declare class AchhanModal {
   previousBtn: string;
   carIcon: string;
   callIcon: string;
-  emailIcon: string;
+  whatappIcon: string;
   opened: boolean;
   id: string;
   tripsDetails: any;
@@ -75,6 +75,7 @@ export declare class AchhanModal {
   callDestinationDataApi: () => Promise<void>;
   callEstimatedDataApi: () => Promise<void>;
   callConfirmBookingApi: () => Promise<void>;
+  sendTicketApi: () => Promise<void>;
   callDriverDetailsApi: () => Promise<void>;
   render(): any;
 }

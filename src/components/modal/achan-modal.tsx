@@ -2,6 +2,7 @@ import { Component, getAssetPath, h, Prop, State, Watch, Event} from '@stencil/c
 import { createStore } from "@stencil/store";
 import { handleErrors } from '../actions';
 import convertDate from '../convertDate';
+import convertTime from '../useFulSnippets/convertTime';
 
 interface roadtripType { 
   firstName: string,
@@ -103,7 +104,7 @@ export class AchhanModal {
   @Prop() previousBtn = 'arrow-left.svg'
   @Prop() carIcon = "car-icon.png"
   @Prop() callIcon = "call-icon.png"
-  @Prop() emailIcon = "email-icon.png"
+  @Prop() whatappIcon = "whatapp.png"
   @Prop({ reflect: true, mutable: true }) opened: boolean;
   @Prop({ reflect: true, mutable: true }) id: string;
 
@@ -303,14 +304,19 @@ watchStateHandler(newValue: any, oldValue: any) {
 
   openConfirmBooking() {
     this.callConfirmBookingApi()
-    this.showTitleText = false;
-    this.showFormContent = true;
-    this.bookingDetails = false;
-    this.confirmBooking = true;
 
+    if (this.cabTicketDetails !== undefined) {
+      this.showTitleText = false;
+      this.showFormContent = true;
+      this.bookingDetails = false;
+      this.confirmBooking = true;
+
+    }
+    
   }
 
   cabTicketChange() {
+    this.sendTicketApi();
     this.showFormContent = true;
     this.bookingDetails = false;
     this.confirmBooking = false;
@@ -440,6 +446,32 @@ watchStateHandler(newValue: any, oldValue: any) {
 // this.cabTicketDetails?.second_ticket?
   // trip_id
 
+  sendTicketApi = async () => { 
+    let sendTicket: FormData = new FormData(); 
+
+    const link_1 = `http://www.codesandbox.com.ng/details/receipt.php?trip_id=${this.cabTicketDetails?.first_ticket?.trip_id}`;
+    const link_2 = `http://www.codesandbox.com.ng/details/receipt.php?trip_id=${this.cabTicketDetails?.second_ticket?.trip_id}`;
+
+    sendTicket.append('first_ticket', link_1);
+    if(this.cabTicketDetails?.second_ticket) {
+      sendTicket.append('second_ticket', link_2);
+      console.log(link_2);
+    }
+    sendTicket.append('name', this.cabTicketDetails?.first_ticket?.passenger_name);
+    sendTicket.append('email', this.cabTicketDetails?.first_ticket?.email);
+    
+    const response = await fetch(`https://watchoutachan.herokuapp.com/api/sendticket`,
+      {
+        method: 'post',
+        body: sendTicket,
+      }
+    );
+    handleErrors(response);
+
+    let json = await response.json();
+    console.log(json);
+  }
+
   callDriverDetailsApi = async () => {
     let driverDetails: FormData = new FormData();
 
@@ -490,7 +522,8 @@ watchStateHandler(newValue: any, oldValue: any) {
   };
 
   render() {
-    console.log(this.globalTrips);
+    // console.log(this.globalTrips);
+    console.log(this.cabTicketDetails);
     // console.log(this.globalTrips);
     
     // console.log(this.driverDetailsState); 
@@ -905,11 +938,11 @@ watchStateHandler(newValue: any, oldValue: any) {
                                     {this.globalTrips.returnDate && this.globalTrips.returnTime ?
                                       (
                                         <modal-booking-details
-                                          date={this.tripsDetails.returnDate} //date
-                                          time={this.tripsDetails.returnTime} //time
+                                          date={this.globalTrips?.returnDate} //date
+                                          time={this.globalTrips.returnTime} //time
                                           airport={this.estimatePrice?.second_cost?.from}
                                           destinationAddress={this.estimatePrice?.second_cost?.to}
-                                          destination={this.tripsDetails.destination} //destination
+                                          destination={this.globalTrips.destination} //destination
                                           estimatedPriceMax={this.estimatePrice?.second_cost?.est_max}
                                           estimatedPriceMin={this.estimatePrice?.second_cost?.est_min}
                                         ></modal-booking-details>
@@ -984,15 +1017,19 @@ watchStateHandler(newValue: any, oldValue: any) {
                                     </row-element>
                                     <row-element>
                                       <small>Time:</small>
-                                      <small>{this.cabTicketDetails?.first_ticket?.time}</small>
+                                      <small>{convertTime(this.cabTicketDetails?.first_ticket?.time)}</small>
                                     </row-element>
                                     <row-element>
-                                      <small>From:</small>
-                                      <small>{this.cabTicketDetails?.first_ticket?.from}</small>
+                                      <small class='flex-1'>From:</small>
+                                      <div class='flex-1'>
+                                        <small class='break-all'>{this.cabTicketDetails?.first_ticket?.from}</small>
+                                      </div>
                                     </row-element>
                                     <row-element>
-                                      <small>Destination:</small>
-                                      <small>{this.cabTicketDetails?.first_ticket?.destination}</small>
+                                      <small class='flex-1'>Destination:</small>
+                                      <div class='flex-1'>
+                                        <small class='break-all'>{this.cabTicketDetails?.first_ticket?.destination}</small>
+                                      </div>
                                     </row-element>
 
                                     {this.cabTicketDetails.second_ticket ? (
@@ -1003,15 +1040,17 @@ watchStateHandler(newValue: any, oldValue: any) {
                                         </row-element>
                                         <row-element>
                                           <small>Return Time:</small>
-                                          <small>{this.cabTicketDetails?.second_ticket?.time}</small>
+                                          <small>{convertTime(this.cabTicketDetails?.second_ticket?.time)}</small>
                                         </row-element>
                                         <row-element>
                                           <small>Return Location:</small>
                                           <small>{this.cabTicketDetails?.second_ticket?.from}</small>
                                         </row-element>
                                         <row-element>
-                                          <small>Return Destination:</small>
-                                          <small>{this.cabTicketDetails?.second_ticket?.destination}</small>
+                                          <small class='flex-1'>Return Destination:</small>
+                                          <div class='flex-1'>
+                                            <small class='break-all'>{this.cabTicketDetails?.second_ticket?.destination}</small>
+                                          </div>
                                         </row-element>
                                       </div>
                                     ) : null}
@@ -1028,19 +1067,25 @@ watchStateHandler(newValue: any, oldValue: any) {
                                         src={getAssetPath(`../assets/${this.callIcon}`)} 
                                         alt="car-icon"
                                       />
-                                      <h4 class="text-sm text-gray-400 font-semibold">234455444519</h4>
+                                      <a href={`tel:${this.cabTicketDetails?.first_ticket?.phone_num}` }>
+                                        <h4 class="text-sm text-gray-400 font-semibold">{this.cabTicketDetails?.first_ticket?.phone_num}</h4>
+                                      </a>
+                                      
                                     </div>
                                     <div class="flex">
                                       <img  
                                         class="mr-6" 
-                                        src={getAssetPath(`../assets/${this.emailIcon}`)} 
+                                        src={getAssetPath(`../assets/${this.whatappIcon}`)} 
                                         alt="car-icon"
                                       />
-                                      <h4 class="text-sm text-gray-400 font-semibold">achan@achan.com</h4>
+                                      <a href={`https://wa.me/${this.cabTicketDetails?.first_ticket?.whatapp}` }>
+                                        <h4 class="text-sm text-gray-400 font-semibold">{this.cabTicketDetails?.first_ticket?.whatapp}</h4>
+                                      </a>
+                                      
                                     </div>
 
                                     <button 
-                                      onClick={this.openDriverDetails.bind(this)}  
+                                      // onClick={this.openDriverDetails.bind(this)}  
                                       type="button"  
                                       class="text-center w-full border-0 p-3 outline-none focus:outline-none customBookingDetails-btn">
                                       View Driver Details
