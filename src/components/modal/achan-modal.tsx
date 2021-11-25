@@ -127,12 +127,6 @@ watchStateHandler(newValue: any, oldValue: any) {
 
   componentWillLoad() {
 
-    let script = document.createElement("script");
-    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAN4lc1-JLSGrY97rGNQ9RpiQAoq3KuRbg&libraries=places";
-    document.head.appendChild(script)
-
-    console.log(script)
-
     if (this.name) {
       this.callFromDataApi(this.name);
     }
