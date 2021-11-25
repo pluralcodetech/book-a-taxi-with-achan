@@ -9,7 +9,7 @@ export namespace Components {
     interface AchanModal {
         "callIcon": string;
         "carIcon": string;
-        "id": string;
+        "name": string;
         "opened": boolean;
         "previousBtn": string;
         "whatappIcon": string;
@@ -25,11 +25,8 @@ export namespace Components {
         "time": string | number;
     }
     interface ModalBotton {
+        "class": string;
         "externalbtn": string;
-        "id": string;
-    }
-    interface OneWayContent {
-        "onBookChange": () => void;
     }
     interface RowElement {
     }
@@ -53,12 +50,6 @@ declare global {
         prototype: HTMLModalBottonElement;
         new (): HTMLModalBottonElement;
     };
-    interface HTMLOneWayContentElement extends Components.OneWayContent, HTMLStencilElement {
-    }
-    var HTMLOneWayContentElement: {
-        prototype: HTMLOneWayContentElement;
-        new (): HTMLOneWayContentElement;
-    };
     interface HTMLRowElementElement extends Components.RowElement, HTMLStencilElement {
     }
     var HTMLRowElementElement: {
@@ -69,7 +60,6 @@ declare global {
         "achan-modal": HTMLAchanModalElement;
         "modal-booking-details": HTMLModalBookingDetailsElement;
         "modal-botton": HTMLModalBottonElement;
-        "one-way-content": HTMLOneWayContentElement;
         "row-element": HTMLRowElementElement;
     }
 }
@@ -77,7 +67,7 @@ declare namespace LocalJSX {
     interface AchanModal {
         "callIcon"?: string;
         "carIcon"?: string;
-        "id"?: string;
+        "name"?: string;
         "opened"?: boolean;
         "previousBtn"?: string;
         "whatappIcon"?: string;
@@ -93,11 +83,8 @@ declare namespace LocalJSX {
         "time"?: string | number;
     }
     interface ModalBotton {
+        "class"?: string;
         "externalbtn"?: string;
-        "id"?: string;
-    }
-    interface OneWayContent {
-        "onBookChange"?: () => void;
     }
     interface RowElement {
     }
@@ -105,7 +92,6 @@ declare namespace LocalJSX {
         "achan-modal": AchanModal;
         "modal-booking-details": ModalBookingDetails;
         "modal-botton": ModalBotton;
-        "one-way-content": OneWayContent;
         "row-element": RowElement;
     }
 }
@@ -116,7 +102,6 @@ declare module "@stencil/core" {
             "achan-modal": LocalJSX.AchanModal & JSXBase.HTMLAttributes<HTMLAchanModalElement>;
             "modal-booking-details": LocalJSX.ModalBookingDetails & JSXBase.HTMLAttributes<HTMLModalBookingDetailsElement>;
             "modal-botton": LocalJSX.ModalBotton & JSXBase.HTMLAttributes<HTMLModalBottonElement>;
-            "one-way-content": LocalJSX.OneWayContent & JSXBase.HTMLAttributes<HTMLOneWayContentElement>;
             "row-element": LocalJSX.RowElement & JSXBase.HTMLAttributes<HTMLRowElementElement>;
         }
     }

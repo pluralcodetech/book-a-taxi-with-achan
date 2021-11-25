@@ -20,12 +20,6 @@ export const ModalBotton: {
   new (): ModalBotton;
 };
 
-interface OneWayContent extends Components.OneWayContent, HTMLElement {}
-export const OneWayContent: {
-  prototype: OneWayContent;
-  new (): OneWayContent;
-};
-
 interface RowElement extends Components.RowElement, HTMLElement {}
 export const RowElement: {
   prototype: RowElement;

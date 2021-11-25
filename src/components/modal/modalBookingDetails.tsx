@@ -1,4 +1,4 @@
-import { Component, Prop, h, getAssetPath, Watch } from "@stencil/core";
+import { Component, Prop, h, getAssetPath} from "@stencil/core";
 import convertDate from "../convertDate";
 import convertTime from "../useFulSnippets/convertTime";
 import toCurrency from "../useFulSnippets/toCurrency";
@@ -20,29 +20,6 @@ export class ModalBookingDetails {
     @Prop({ reflect: true, mutable: true}) destinationAddress : string;
     @Prop({ reflect: true, mutable: true}) estimatedPriceMax : string | number;
     @Prop({ reflect: true, mutable: true}) estimatedPriceMin : string | number;
-
-    // @Watch('date')
-    // @Watch('time')
-    // @Watch('airport')
-    // @Watch('destination')
-    // @Watch('destinationAddress')
-    // @Watch('estimatedPriceMax')
-    // @Watch('estimatedPriceMin')
-    // watchStateHandler(newValue: any, oldValue: any) {
-    //     if (newValue !== oldValue) {
-    //         this.date = newValue;
-    //         this.time = newValue;
-    //         this.airport = newValue;
-    //         this.destination = newValue;
-    //         this.destinationAddress = newValue;
-    //         this.estimatedPriceMax = newValue;
-    //         this.estimatedPriceMin = newValue;
-    //     }
-    // console.log('The old value of roadTripDetails is: ', oldValue);
-    // console.log('The new value of roadTripDetails is: ', newValue);
-    // }
-    
-    
 
 //   @Event({}) 
     render() {

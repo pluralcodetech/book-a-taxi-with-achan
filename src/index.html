@@ -4,17 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Stencil Component Starter</title>
-    <link rel="stylesheet" href="/build/book-a-taxi-with-achan.css">
+    <!-- <link rel="stylesheet" href="/build/book-a-taxi-with-achan.css"> -->
     <script type="module" src="/build/book-a-taxi-with-achan.esm.js"></script>
     <script nomodule src="/build/book-a-taxi-with-achan.js"></script>
+    <!-- <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAN4lc1-JLSGrY97rGNQ9RpiQAoq3KuRbg&libraries=places">
+    </script> -->
   </head>
   <body>
-    <modal-botton id="achan-modal-btn"></modal-botton>
+    <modal-botton class="achan-modal-btn"></modal-botton>
     <!-- <button id="achan-modal-btn">Open Menu</button> -->
-    <achan-modal id="y0uuGO1xY1su5ni9HiZjwO40ZHHDprsg"></achan-modal>
+    <achan-modal name="y0uuGO1xY1su5ni9HiZjwO40ZHHDprsg"></achan-modal>
     
     <script>
-      const modalButton = document.querySelector('#achan-modal-btn');
+      const modalButton = document.querySelector('.achan-modal-btn');
       const achanModal = document.querySelector('achan-modal');
       modalButton.addEventListener('click', () => {
         if (!achanModal.opened) {
@@ -22,6 +25,14 @@
           achanModal.opened = true;
         }
       })
+
+      // var input = document.getElementById('autocomplete');
+      // var autocomplete = new google.maps.places.Autocomplete(input);
+      // $(document).ready(function () {
+      //     $('select').selectize({
+      //       sortField: 'text'
+      //     });
+      //   });
     </script>
   </body>
 </html>

@@ -1,5 +1,4 @@
 import { Component, getAssetPath, h, Prop, State, Watch, Event} from '@stencil/core';
-import { createStore } from "@stencil/store";
 import { handleErrors } from '../actions';
 import convertDate from '../convertDate';
 import convertTime from '../useFulSnippets/convertTime';
@@ -39,6 +38,8 @@ interface  oneWayType {
 })
 
 export class AchhanModal {
+
+  
 
   @State() showTripsContent = false;
   @State() showTitleText = true;
@@ -106,7 +107,8 @@ export class AchhanModal {
   @Prop() callIcon = "call-icon.png"
   @Prop() whatappIcon = "whatapp.png"
   @Prop({ reflect: true, mutable: true }) opened: boolean;
-  @Prop({ reflect: true, mutable: true }) id: string;
+  // @Prop({ reflect: true, mutable: true }) id: string;
+  @Prop({ reflect: true, mutable: true })  name: string;
 
 
   // Get roadTripForm details from LocalStorage
@@ -125,10 +127,21 @@ watchStateHandler(newValue: any, oldValue: any) {
 
   componentWillLoad() {
 
-    if (this.id) {
-      this.callFromDataApi(this.id);
+    let script = document.createElement("script");
+    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAN4lc1-JLSGrY97rGNQ9RpiQAoq3KuRbg&libraries=places";
+    document.head.appendChild(script)
+
+    console.log(script)
+
+    if (this.name) {
+      this.callFromDataApi(this.name);
     }
   };
+
+  // componentWillUpdate() {
+  //   // var input = document.getElementById('autocomplete');
+  //   // var autocomplete = new google.maps.places.Autocomplete(input);
+  // }
 
   // 
   callFromDataApi = async (id: any) => {
@@ -155,6 +168,8 @@ watchStateHandler(newValue: any, oldValue: any) {
     this.confirmBooking = false;
     this.cabTicket = false;
     this.driverDetails = false;
+
+    window.location.reload(); 
   }
 
   onContentChange(content: string){
@@ -164,52 +179,52 @@ watchStateHandler(newValue: any, oldValue: any) {
   onBookChange() {
 
     if (!this.roadTripValid && !this.showTripsContent) {
-      if (this.roadTrip.firstName.trim() === '') {
+      if (this.roadTrip?.firstName?.trim() === '') {
         this.firstNameErrMsg = 'First Name is required';
       }
-      if (this.roadTrip.surname.trim() === '') {
+      if (this.roadTrip?.surname?.trim() === '') {
         this.surnameErrMsg = 'Surname is required';
       }
-      if (this.roadTrip.phoneNumber.trim() === '') {
+      if (this.roadTrip?.phoneNumber?.trim() === '') {
         this.phoneNumberErrMsg = 'Phone Number is required';
       }
-      if (this.roadTrip.emailAddress.trim() === '') {
+      if (this.roadTrip?.emailAddress?.trim() === '') {
         this.emailAddressErrMsg = 'Email Address is required';
       }
-      if (this.roadTrip.from.trim() === '') {
+      if (this.roadTrip?.from?.trim() === '') {
         this.fromErrMsg = 'From is required';
       }
-      if (this.roadTrip.destination.trim() === '') {
+      if (this.roadTrip?.destination?.trim() === '') {
         this.destinationErrMsg = 'Destination is required';
       }
-      if (this.roadTrip.date.trim() === '') {
+      if (this.roadTrip?.date?.trim() === '') {
         this.dateErrMsg = 'Date is required';
       }
-      if (this.roadTrip.returnDate.trim() === '') {
+      if (this.roadTrip?.returnDate?.trim() === '') {
         this.returnDateErrMsg = 'Return Date is required';
       }
-      if (this.roadTrip.time.trim() === '') {
+      if (this.roadTrip?.time?.trim() === '') {
         this.timeErrMsg = 'Time is required';
       }
-      if (this.roadTrip.returnTime.trim() === '') {
+      if (this.roadTrip?.returnTime?.trim() === '') {
         this.returnTimeErrMsg = 'Return Time is required';
       }
-      if (this.roadTrip.destinationAddress.trim() === '') {
+      if (this.roadTrip?.destinationAddress?.trim() === '') {
         this.destinationAddressErrMsg = 'Destination Address is required';
       }
 
       if (
-        this.roadTrip.firstName.trim() !== ''
-        && this.roadTrip.surname.trim() !== ''
-        && this.roadTrip.phoneNumber.trim() !== ''
-        && this.roadTrip.emailAddress.trim() !== ''
-        && this.roadTrip.from.trim() !== ''
-        && this.roadTrip.destination.trim() !== ''
-        && this.roadTrip.date.trim() !== ''
-        && this.roadTrip.returnDate.trim() !== ''
-        && this.roadTrip.time.trim() !== ''
-        && this.roadTrip.returnTime.trim() !== ''
-        && this.roadTrip.destinationAddress.trim() !== ''
+        this.roadTrip?.firstName?.trim() !== ''
+        && this.roadTrip?.surname?.trim() !== ''
+        && this.roadTrip?.phoneNumber?.trim() !== ''
+        && this.roadTrip?.emailAddress?.trim() !== ''
+        && this.roadTrip?.from?.trim() !== ''
+        && this.roadTrip?.destination?.trim() !== ''
+        && this.roadTrip?.date?.trim() !== ''
+        && this.roadTrip?.returnDate?.trim() !== ''
+        && this.roadTrip?.time?.trim() !== ''
+        && this.roadTrip?.returnTime?.trim() !== ''
+        && this.roadTrip?.destinationAddress?.trim() !== ''
       ) {
         this.roadTripValid = true;
         this.globalTrips = this.roadTrip;
@@ -228,45 +243,45 @@ watchStateHandler(newValue: any, oldValue: any) {
     }
     
     if (!this.roadTripValid && this.showTripsContent) {
-      if (this.onewayTrip.firstName.trim() === '') {
+      if (this.onewayTrip?.firstName?.trim() === '') {
         this.firstNameErrMsg = 'First Name is required';
       }
-      if (this.onewayTrip.surname.trim() === '') {
+      if (this.onewayTrip?.surname?.trim() === '') {
         this.surnameErrMsg = 'Surname is required';
       }
-      if (this.onewayTrip.phoneNumber.trim() === '') {
+      if (this.onewayTrip?.phoneNumber?.trim() === '') {
         this.phoneNumberErrMsg = 'Phone Number is required';
       }
-      if (this.onewayTrip.emailAddress.trim() === '') {
+      if (this.onewayTrip?.emailAddress?.trim() === '') {
         this.emailAddressErrMsg = 'Email Address is required';
       }
-      if (this.onewayTrip.from.trim() === '') {
+      if (this.onewayTrip?.from?.trim() === '') {
         this.fromErrMsg = 'From is required';
       }
-      if (this.onewayTrip.destination.trim() === '') {
+      if (this.onewayTrip?.destination?.trim() === '') {
         this.destinationErrMsg = 'Destination is required';
       }
-      if (this.onewayTrip.date.trim() === '') {
+      if (this.onewayTrip?.date?.trim() === '') {
         this.dateErrMsg = 'Date is required';
       }
       
-      if (this.onewayTrip.time.trim() === '') {
+      if (this.onewayTrip?.time?.trim() === '') {
         this.timeErrMsg = 'Time is required';
       }
-      if (this.onewayTrip.destinationAddress.trim() === '') {
+      if (this.onewayTrip?.destinationAddress?.trim() === '') {
         this.destinationAddressErrMsg = 'Destination Address is required';
       }
 
       if (
-        this.onewayTrip.firstName.trim() !== ''
-        && this.onewayTrip.surname.trim() !== ''
-        && this.onewayTrip.phoneNumber.trim() !== ''
-        && this.onewayTrip.emailAddress.trim() !== ''
-        && this.onewayTrip.from.trim() !== ''
-        && this.onewayTrip.destination.trim() !== ''
-        && this.onewayTrip.date.trim() !== ''
-        && this.onewayTrip.time.trim() !== ''
-        && this.onewayTrip.destinationAddress.trim() !== ''
+        this.onewayTrip?.firstName?.trim() !== ''
+        && this.onewayTrip?.surname?.trim() !== ''
+        && this.onewayTrip?.phoneNumber?.trim() !== ''
+        && this.onewayTrip?.emailAddress?.trim() !== ''
+        && this.onewayTrip?.from?.trim() !== ''
+        && this.onewayTrip?.destination?.trim() !== ''
+        && this.onewayTrip?.date?.trim() !== ''
+        && this.onewayTrip?.time?.trim() !== ''
+        && this.onewayTrip?.destinationAddress?.trim() !== ''
       ) {
         this.roadTripValid = true;
         this.globalTrips = this.onewayTrip;
@@ -413,10 +428,20 @@ watchStateHandler(newValue: any, oldValue: any) {
     ConfirmBooking.append('email', this.globalTrips.emailAddress);
     ConfirmBooking.append('phonenumber', this.globalTrips.phoneNumber);
     ConfirmBooking.append('airid', this.globalTrips.from);
-    ConfirmBooking.append('from', this.estimatePrice?.first_cost?.from);
+    if (this.estimatePrice?.first_cost) {
+      ConfirmBooking.append('from', this.estimatePrice?.first_cost?.from);
+      ConfirmBooking.append('estmin', this.estimatePrice?.first_cost?.est_min);
+      ConfirmBooking.append('estmax', this.estimatePrice?.first_cost?.est_max);
+    } else {
+      ConfirmBooking.append('from', this.estimatePrice?.from);
+      ConfirmBooking.append('estmin', this.estimatePrice?.est_min);
+      ConfirmBooking.append('estmax', this.estimatePrice?.est_max);
+    }
+
     ConfirmBooking.append('to', this.globalTrips.destination);
     ConfirmBooking.append('date', this.globalTrips.date);
     ConfirmBooking.append('time', this.globalTrips.time);
+   
     if (this.globalTrips?.returnDate) {
        ConfirmBooking.append('returndate', this.globalTrips.returnDate);
     }
@@ -426,11 +451,8 @@ watchStateHandler(newValue: any, oldValue: any) {
    
     
     ConfirmBooking.append('dest_address', this.globalTrips.destinationAddress);
-    ConfirmBooking.append('estmin', this.estimatePrice?.first_cost?.est_min);
-    ConfirmBooking.append('estmax', this.estimatePrice?.first_cost?.est_max);
-
-
-
+    
+  
     const response = await fetch(`https://watchoutachan.herokuapp.com/api/booktrip`,
       {
         method: 'post',
@@ -452,9 +474,9 @@ watchStateHandler(newValue: any, oldValue: any) {
     const link_1 = `http://www.codesandbox.com.ng/details/receipt.php?trip_id=${this.cabTicketDetails?.first_ticket?.trip_id}`;
     const link_2 = `http://www.codesandbox.com.ng/details/receipt.php?trip_id=${this.cabTicketDetails?.second_ticket?.trip_id}`;
 
-    sendTicket.append('first_ticket', link_1);
+    sendTicket.append('link1', link_1);
     if(this.cabTicketDetails?.second_ticket) {
-      sendTicket.append('second_ticket', link_2);
+      sendTicket.append('link2', link_2);
       console.log(link_2);
     }
     sendTicket.append('name', this.cabTicketDetails?.first_ticket?.passenger_name);
@@ -523,7 +545,8 @@ watchStateHandler(newValue: any, oldValue: any) {
 
   render() {
     // console.log(this.globalTrips);
-    console.log(this.cabTicketDetails);
+    // console.log(this.cabTicketDetails);
+    // console.log(this.estimatePrice);
     // console.log(this.globalTrips);
     
     // console.log(this.driverDetailsState); 
@@ -538,7 +561,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Firstname</label>
                   <input
                     name="firstName"
-                    value={this.roadTrip.firstName}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                     onInput={(e) => this.handleChange(e)}
                     required
@@ -549,7 +571,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Surname</label>
                   <input
                     name="surname"
-                    value={this.roadTrip.surname}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                     required
@@ -563,7 +584,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Phone Number</label>
                   <input
                     name='phoneNumber'
-                    value={this.roadTrip.phoneNumber}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                     required
@@ -574,7 +594,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Email Address</label>
                   <input
                     name="emailAddress"
-                    value={this.roadTrip.emailAddress}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="email"
                     required
@@ -636,7 +655,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Date</label>
                   <input
                     name="date"
-                    value={this.roadTrip.date}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="date"
                     required
@@ -647,7 +665,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Return Date</label>
                   <input
                     name="returnDate"
-                    value={this.roadTrip.returnDate}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="date"
                     required
@@ -660,7 +677,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Time</label>
                   <input
                     name="time"
-                    value={this.roadTrip.time}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="time"
                     required
@@ -671,7 +687,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Return Time</label>
                   <input
                     name="returnTime"
-                    value={this.roadTrip.returnTime}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="time"
                     required
@@ -684,7 +699,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Destination Address</label>
                   <input
                     name="destinationAddress"
-                    value={this.roadTrip.destinationAddress}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                     required
@@ -711,7 +725,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                 <label class="block text-gray-400 text-sm font-light mb-2">Firstname</label>
                 <input
                     name="firstName"
-                    value={this.onewayTrip.firstName}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                     onInput={(e) => this.handleChange(e)}
                     required
@@ -722,7 +735,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                 <label class="block text-gray-400 text-sm font-light mb-2">Surname</label>
                 <input
                   name="surname"
-                  value={this.onewayTrip.surname}
                   onInput={(e) => this.handleChange(e)}
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                   required
@@ -736,7 +748,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                 <label class="block text-gray-400 text-sm font-light mb-2">Phone Number</label>
                 <input
                   name='phoneNumber'
-                  value={this.onewayTrip.phoneNumber}
                   onInput={(e) => this.handleChange(e)}
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                   required
@@ -747,7 +758,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                 <label class="block text-gray-400 text-sm font-light mb-2">Email Address</label>
                 <input
                   name="emailAddress"
-                  value={this.onewayTrip.emailAddress}
                   onInput={(e) => this.handleChange(e)}
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="email"
                   required
@@ -808,7 +818,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                 <label class="block text-gray-400 text-sm font-light mb-2">Date</label>
                 <input
                     name="date"
-                    value={this.onewayTrip.date}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="date"
                     required
@@ -819,7 +828,6 @@ watchStateHandler(newValue: any, oldValue: any) {
               <label class="block text-gray-400 text-sm font-light mb-2">Time</label>
                 <input
                     name="time"
-                    value={this.onewayTrip.time}
                     onInput={(e) => this.handleChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="time"
                     required
@@ -832,7 +840,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                 <label class="block text-gray-400 text-sm font-light mb-2">Destination Address</label>
                 <input
                   name="destinationAddress"
-                  value={this.onewayTrip.destinationAddress}
                   onInput={(e) => this.handleChange(e)}
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                   required
@@ -1083,13 +1090,40 @@ watchStateHandler(newValue: any, oldValue: any) {
                                       </a>
                                       
                                     </div>
+                                    
+                                    <div class="space-y-4">
+                                      <div>
+                                        <a href={`http://www.codesandbox.com.ng/details/receipt.php?trip_id=${this.cabTicketDetails?.first_ticket?.trip_id}` }>
+                                          <button 
+                                          // onClick={this.openDriverDetails.bind(this)}  
+                                            type="button"  
+                                            class="text-center w-full border-0 p-3 outline-none focus:outline-none customBookingDetails-btn">
+                                            First Trip Ticket Details
+                                          </button>
+                                        </a>
+                                      </div>
+                                      
+                                      {
+                                        this.cabTicketDetails?.second_ticket ?
+                                        (
+                                          <div>
+                                            <a href={`http://www.codesandbox.com.ng/details/receipt.php?trip_id=${this.cabTicketDetails?.second_ticket?.trip_id}` }>
+                                              <button 
+                                              // onClick={this.openDriverDetails.bind(this)}  
+                                                type="button"  
+                                                class="text-center w-full border-0 p-3 outline-none focus:outline-none customBookingDetails-btn">
+                                                Return Trip Ticket Details
+                                              </button>
+                                            </a>
+                                          </div>
+                                        ) : null
+                                      }
+                                      
+                                    </div>
+                                    
+                                  
 
-                                    <button 
-                                      // onClick={this.openDriverDetails.bind(this)}  
-                                      type="button"  
-                                      class="text-center w-full border-0 p-3 outline-none focus:outline-none customBookingDetails-btn">
-                                      View Driver Details
-                                    </button>
+                                    
                                     
                                   </div>
                                 </section>
