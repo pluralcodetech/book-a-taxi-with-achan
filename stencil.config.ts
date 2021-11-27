@@ -15,6 +15,7 @@ const purge = purgecss({
 
 export const config: Config = {
   namespace: 'book-a-taxi-with-achan',
+  // globalScript: 'src/global/global.tsx',
   // globalStyle: 'src/global/global.css',
   outputTargets: [
     {

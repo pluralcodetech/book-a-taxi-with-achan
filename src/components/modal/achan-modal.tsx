@@ -3,6 +3,12 @@ import { handleErrors } from '../actions';
 import convertDate from '../convertDate';
 import convertTime from '../useFulSnippets/convertTime';
 
+
+
+
+
+
+
 interface roadtripType { 
   firstName: string,
   surname: string,
@@ -52,6 +58,8 @@ export class AchhanModal {
   @State() fromDropDown: any;
   @State() storeFromDropDown: any;
   @State() destinationState: any;
+  @State() googleApiLocation;
+  @State() storeGoogleApiLocation;
   
 
   @State() roadTrip : roadtripType = {
@@ -130,12 +138,105 @@ watchStateHandler(newValue: any, oldValue: any) {
     if (this.name) {
       this.callFromDataApi(this.name);
     }
+
+
+
+     
+
+    
+
+
+    // var script = document.createElement("script")
+    // script.type = "text/javascript";
+    // //Chrome,Firefox, Opera, Safari 3+
+    // script.onload = function(){
+    //   console.log("Script is loaded")
+
+    //   const html =
+    //   `<script>
+    //         let dom = document.getElementById('togetaddress');
+    //         //  Make first div    
+    //         var div_form_group = document.createElement('div');
+    //             div_form_group.setAttribute("class","form-group");
+            
+    //         //  Make label
+    //         var label = document.createElement('label');
+    //             label.setAttribute('for','college')
+    //             label.setAttribute('class','col-sm-3 control-label input-sm');
+
+    //         //  Make inner div
+    //         var div_inner = document.createElement('div');
+    //             div_inner.setAttribute('class','col-sm-5');
+
+    //         //  Make input
+    //         var input = document.createElement('input');
+    //             input.type = 'text';
+    //             input.setAttribute('name', 'college[]');
+    //             input.setAttribute('class', 'form-control input-sm');
+    //             input.setAttribute('placeholder','Name of College/University');
+    //             input.setAttribute('required','required');
+
+    //         //  Attach elements
+    //         div_inner.appendChild( input );
+    //         div_form_group.appendChild( label );
+    //         div_form_group.appendChild( div_inner );
+    //         dom.appendChild( div_form_group );
+
+
+    //     let autocomplete;
+    //     let address1Field;
+
+    //     function initAutocomplete() {
+    //       address1Field = document.getElementById('autocomplete');
+          
+    //       // Create the autocomplete object, restricting the search predictions to
+    //       // addresses in the US and Canada.
+    //       autocomplete = new google.maps.places.Autocomplete(address1Field, {
+    //         componentRestrictions: { country: ["us", "ca"] },
+    //         fields: ["address_components", "geometry"],
+    //         types: ["address"],
+    //       });
+    //       address1Field.focus();
+    //       // When the user selects an address from the drop-down, populate the
+    //       // address fields in the form.
+    //       autocomplete.addListener("place_changed", fillInAddress);
+    //     }
+
+    //     function fillInAddress() {
+    //       // Get the place details from the autocomplete object.
+    //       const place = autocomplete.getPlace();
+
+    //       console.log(place.address_components);
+    //     }
+
+
+      
+        
+
+          
+    //   </script>`
+
+    //   const scriptEl = document.createRange().createContextualFragment(html)
+    //   document.body.appendChild(scriptEl)
+      
+    // };
+    // script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAN4lc1-JLSGrY97rGNQ9RpiQAoq3KuRbg&libraries=places"
+    // document.getElementsByTagName("head")[0].appendChild(script)
+
+  
+
+    
+
+    
+  
+
+
+      
+
+
   };
 
-  // componentWillUpdate() {
-  //   // var input = document.getElementById('autocomplete');
-  //   // var autocomplete = new google.maps.places.Autocomplete(input);
-  // }
+  // https://maps.googleapis.com/maps/api/place/autocomplete/json?input=4b toyin&key=AIzaSyAN4lc1-JLSGrY97rGNQ9RpiQAoq3KuRbg
 
   // 
   callFromDataApi = async (id: any) => {
@@ -170,8 +271,14 @@ watchStateHandler(newValue: any, oldValue: any) {
       this.showTripsContent = content === 'roundTrip'
   }
 
-  onBookChange() {
+  handlePlaceChange(event) {
+    
 
+   event.target.value;
+  }
+
+  onBookChange() {
+    
     if (!this.roadTripValid && !this.showTripsContent) {
       if (this.roadTrip?.firstName?.trim() === '') {
         this.firstNameErrMsg = 'First Name is required';
@@ -293,6 +400,9 @@ watchStateHandler(newValue: any, oldValue: any) {
       
     }
     
+  
+  
+  
   }
 
   previousChange() {
@@ -366,6 +476,22 @@ watchStateHandler(newValue: any, oldValue: any) {
     if (this.showTripsContent) {
       this.onewayTrip[event.target.name] = value;
     }
+
+   
+  }
+
+  handleLocationChange(event) {
+    this.googleApiLocation = event.target.value;
+    if (!this.showTripsContent) {
+      this.roadTrip.destinationAddress = event.target.value;
+    }
+
+    if (this.showTripsContent) {
+      this.onewayTrip.destinationAddress = event.target.value;
+    }
+    
+    this.callgoogleApiData();
+   
   }
 
   callDestinationDataApi = async () => {
@@ -385,6 +511,25 @@ watchStateHandler(newValue: any, oldValue: any) {
     let json = await response.json();
     this.destinationState = json;
   };
+
+  callgoogleApiData = async () => {
+    
+    let googleData: FormData = new FormData();
+    googleData.append('area', this.googleApiLocation);
+
+
+    const response = await fetch(`https://watchoutachan.herokuapp.com/api/google/locations`,
+      {
+        method: 'post',
+        body: googleData
+      }
+    );
+    handleErrors(response);
+
+    let json = await response.json();
+    this.storeGoogleApiLocation = json;
+  };
+
 
   callEstimatedDataApi = async () => {
     let estimatedData: FormData = new FormData();
@@ -538,6 +683,11 @@ watchStateHandler(newValue: any, oldValue: any) {
   };
 
   render() {
+    console.log(this.googleApiLocation);
+    console.log(this.storeGoogleApiLocation);
+    console.log(this.roadTrip);
+    
+    
     // console.log(this.globalTrips);
     // console.log(this.cabTicketDetails);
     // console.log(this.estimatePrice);
@@ -693,10 +843,18 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <label class="block text-gray-400 text-sm font-light mb-2">Destination Address</label>
                   <input
                     name="destinationAddress"
-                    onInput={(e) => this.handleChange(e)}
+                    list='datalist1'
+                    // onInput={(e) => this.handleChange(e)}
+                    onInput={(e) => this.handleLocationChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                     required
                   />
+                  <datalist id='datalist1'>
+                    {
+                      this.storeGoogleApiLocation?.map((item) => (
+                        <option value={item}>{item}</option>
+                      ))}
+                  </datalist>
                   <small>{this.destinationAddressErrMsg}</small>
                 </div>
               </div>
@@ -1044,8 +1202,11 @@ watchStateHandler(newValue: any, oldValue: any) {
                                           <small>{convertTime(this.cabTicketDetails?.second_ticket?.time)}</small>
                                         </row-element>
                                         <row-element>
-                                          <small>Return Location:</small>
-                                          <small>{this.cabTicketDetails?.second_ticket?.from}</small>
+                                          <small class='flex-1'>Return Location:</small>
+                                          <div class='flex-1'>
+                                            <small>{this.cabTicketDetails?.second_ticket?.from}</small>
+                                          </div>
+                                          
                                         </row-element>
                                         <row-element>
                                           <small class='flex-1'>Return Destination:</small>

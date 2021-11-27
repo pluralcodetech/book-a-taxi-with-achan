@@ -33,6 +33,8 @@ export declare class AchhanModal {
   fromDropDown: any;
   storeFromDropDown: any;
   destinationState: any;
+  googleApiLocation: any;
+  storeGoogleApiLocation: any;
   roadTrip: roadtripType;
   onewayTrip: oneWayType;
   roadTripValid: boolean;
@@ -64,6 +66,7 @@ export declare class AchhanModal {
   callFromDataApi: (id: any) => Promise<void>;
   closeModal(): void;
   onContentChange(content: string): void;
+  handlePlaceChange(event: any): void;
   onBookChange(): void;
   previousChange(): void;
   backToDriverDetails(): void;
@@ -72,7 +75,9 @@ export declare class AchhanModal {
   openDriverDetails(): void;
   handleSecondSelect(event: any): void;
   handleChange(event: any): void;
+  handleLocationChange(event: any): void;
   callDestinationDataApi: () => Promise<void>;
+  callgoogleApiData: () => Promise<void>;
   callEstimatedDataApi: () => Promise<void>;
   callConfirmBookingApi: () => Promise<void>;
   sendTicketApi: () => Promise<void>;
