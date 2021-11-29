@@ -61,7 +61,6 @@ export declare class AchhanModal {
   whatappIcon: string;
   opened: boolean;
   name: string;
-  tripsDetails: any;
   watchStateHandler(newValue: any, oldValue: any): void;
   componentWillLoad(): void;
   callFromDataApi: (id: any) => Promise<void>;

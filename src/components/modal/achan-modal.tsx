@@ -2,6 +2,7 @@ import { Component, getAssetPath, h, Prop, State, Watch, Event} from '@stencil/c
 import { handleErrors } from '../actions';
 import convertDate from '../convertDate';
 import convertTime from '../useFulSnippets/convertTime';
+import toCurrency from '../useFulSnippets/toCurrency';
 
 
 
@@ -116,12 +117,11 @@ export class AchhanModal {
   @Prop() callIcon = "call-icon.png"
   @Prop() whatappIcon = "whatapp.png"
   @Prop({ reflect: true, mutable: true }) opened: boolean;
-  // @Prop({ reflect: true, mutable: true }) id: string;
   @Prop({ reflect: true, mutable: true })  name: string;
 
 
   // Get roadTripForm details from LocalStorage
-  @State() tripsDetails = JSON.parse(localStorage.getItem('roadTripForm')) 
+  // @State() tripsDetails = JSON.parse(localStorage.getItem('roadTripForm')) 
 
 
 
@@ -237,8 +237,6 @@ watchStateHandler(newValue: any, oldValue: any) {
 
   };
 
-  // https://maps.googleapis.com/maps/api/place/autocomplete/json?input=4b toyin&key=AIzaSyAN4lc1-JLSGrY97rGNQ9RpiQAoq3KuRbg
-
   // 
   callFromDataApi = async (id: any) => {
     
@@ -330,8 +328,8 @@ watchStateHandler(newValue: any, oldValue: any) {
       ) {
         this.roadTripValid = true;
         this.globalTrips = this.roadTrip;
-        console.log(this.globalTrips);
-        localStorage.setItem("roadTripForm", JSON.stringify(this.roadTrip))
+        // console.log(this.globalTrips);
+        // localStorage.setItem("roadTripForm", JSON.stringify(this.roadTrip))
 
         this.callEstimatedDataApi()
         // 
@@ -387,8 +385,6 @@ watchStateHandler(newValue: any, oldValue: any) {
       ) {
         this.roadTripValid = true;
         this.globalTrips = this.onewayTrip;
-        console.log(this.globalTrips);
-        // localStorage.setItem("roadTripForm", JSON.stringify(this.roadTrip))
 
         this.callEstimatedDataApi()
         // 
@@ -400,10 +396,7 @@ watchStateHandler(newValue: any, oldValue: any) {
 
       
     }
-    
-  
-  
-  
+
   }
 
   previousChange() {
@@ -620,7 +613,7 @@ watchStateHandler(newValue: any, oldValue: any) {
     sendTicket.append('link1', link_1);
     if(this.cabTicketDetails?.second_ticket) {
       sendTicket.append('link2', link_2);
-      console.log(link_2);
+      // console.log(link_2);
     }
     sendTicket.append('name', this.cabTicketDetails?.first_ticket?.passenger_name);
     sendTicket.append('email', this.cabTicketDetails?.first_ticket?.email);
@@ -633,8 +626,8 @@ watchStateHandler(newValue: any, oldValue: any) {
     );
     handleErrors(response);
 
-    let json = await response.json();
-    console.log(json);
+    // let json = await response.json();
+    // console.log(json);
   }
 
 
@@ -1273,7 +1266,7 @@ watchStateHandler(newValue: any, oldValue: any) {
                                   <div class="mt-10 space-y-8">
                                     <row-element>
                                       <small>estimated Total:</small>
-                              <small class="font-bold">{this.estimatePrice?.first_cost?.est_min || this.estimatePrice?.est_min} - {this.estimatePrice?.first_cost?.est_max || this.estimatePrice?.est_max}</small>
+                                      <small class="font-bold">{toCurrency(this.estimatePrice?.first_cost?.est_min || this.estimatePrice?.est_min, "NGN")} - {toCurrency(this.estimatePrice?.first_cost?.est_max || this.estimatePrice?.est_max, "NGN")}</small>
                                     </row-element>
                                   </div>
                                 </section>
