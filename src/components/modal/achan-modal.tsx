@@ -603,9 +603,7 @@ watchStateHandler(newValue: any, oldValue: any) {
     let json = await response.json();
     this.cabTicketDetails = json;
   };
-// this.cabTicketDetails?.first_ticket?
-// this.cabTicketDetails?.second_ticket?
-  // trip_id
+
 
   sendTicketApi = async () => { 
     let sendTicket: FormData = new FormData(); 
@@ -844,7 +842,6 @@ watchStateHandler(newValue: any, oldValue: any) {
                   <input
                     name="destinationAddress"
                     list='datalist1'
-                    // onInput={(e) => this.handleChange(e)}
                     onInput={(e) => this.handleLocationChange(e)}
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
                     required
@@ -989,15 +986,22 @@ watchStateHandler(newValue: any, oldValue: any) {
             </div>
             <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
               <div class="w-full">
-                <label class="block text-gray-400 text-sm font-light mb-2">Destination Address</label>
-                <input
-                  name="destinationAddress"
-                  onInput={(e) => this.handleChange(e)}
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
-                  required
-                />
+                  <label class="block text-gray-400 text-sm font-light mb-2">Destination Address</label>
+                  <input
+                    name="destinationAddress"
+                    list='datalist1'
+                    onInput={(e) => this.handleLocationChange(e)}
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-600" type="text"
+                    required
+                  />
+                  <datalist id='datalist1'>
+                    {
+                      this.storeGoogleApiLocation?.map((item) => (
+                        <option value={item}>{item}</option>
+                      ))}
+                  </datalist>
                   <small>{this.destinationAddressErrMsg}</small>
-              </div>
+                </div>
             </div>
             <button 
               type="button" 
