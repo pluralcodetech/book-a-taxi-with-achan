@@ -30,6 +30,7 @@ export declare class AchhanModal {
   confirmBooking: boolean;
   cabTicket: boolean;
   driverDetails: boolean;
+  loading: boolean;
   fromDropDown: any;
   storeFromDropDown: any;
   destinationState: any;

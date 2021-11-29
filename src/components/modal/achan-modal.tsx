@@ -54,6 +54,7 @@ export class AchhanModal {
   @State() confirmBooking = false;
   @State() cabTicket = false;
   @State() driverDetails = false;
+  @State() loading = false;
 
   @State() fromDropDown: any;
   @State() storeFromDropDown: any;
@@ -424,7 +425,7 @@ watchStateHandler(newValue: any, oldValue: any) {
   openConfirmBooking() {
     this.callConfirmBookingApi()
 
-    if (this.cabTicketDetails !== undefined) {
+    if (this.cabTicketDetails !== undefined || this.cabTicketDetails !== null || this.cabTicketDetails !== '') {
       this.showTitleText = false;
       this.showFormContent = true;
       this.bookingDetails = false;
@@ -543,10 +544,7 @@ watchStateHandler(newValue: any, oldValue: any) {
     if (this.globalTrips?.returnTime) {
       estimatedData.append('returntime', this.globalTrips.returnTime);
     }
-    
-
-
-
+ 
     const response = await fetch(`https://watchoutachan.herokuapp.com/api/estimate`,
       {
         method: 'post',
@@ -560,6 +558,7 @@ watchStateHandler(newValue: any, oldValue: any) {
   };
 
   callConfirmBookingApi = async () => {
+    this.loading = true;
     let ConfirmBooking: FormData = new FormData();
     ConfirmBooking.append('firstname', this.globalTrips.firstName);
     ConfirmBooking.append('surname', this.globalTrips.surname);
@@ -590,17 +589,25 @@ watchStateHandler(newValue: any, oldValue: any) {
     
     ConfirmBooking.append('dest_address', this.globalTrips.destinationAddress);
     
-  
-    const response = await fetch(`https://watchoutachan.herokuapp.com/api/booktrip`,
-      {
-        method: 'post',
-        body: ConfirmBooking,
-      }
-    );
-    handleErrors(response);
 
-    let json = await response.json();
-    this.cabTicketDetails = json;
+    try {
+        const response = await fetch(`https://watchoutachan.herokuapp.com/api/booktrip`,
+          {
+            method: 'post',
+            body: ConfirmBooking,
+          }
+        )
+      handleErrors(response);
+      
+        this.loading = false;
+        let json = await response.json();
+        this.cabTicketDetails = json;
+        
+    } catch (error) {
+        console.log(error);
+        this.cabTicketDetails = null;
+        this.loading = false;
+    }
   };
 
 
@@ -638,7 +645,7 @@ watchStateHandler(newValue: any, oldValue: any) {
     
     
     // console.log(this.globalTrips);
-    // console.log(this.cabTicketDetails);
+    console.log(this.cabTicketDetails?.first_ticket);
     // console.log(this.estimatePrice);
     // console.log(this.globalTrips);
     
@@ -1064,14 +1071,39 @@ watchStateHandler(newValue: any, oldValue: any) {
                             </div>
 
                             <div class="flex flex-col  space-y-6">
-                              <button 
-                                onClick={this.openConfirmBooking.bind(this)}  
-                                type="button"  
-                                class="text-center mt-10 w-full border-0 p-3 outline-none focus:outline-none customBookingDetails-btn">Continue Book</button>
-                              <button 
-                                onClick={this.previousChange.bind(this)}  
-                                type="button" 
-                                class="text-center mt-10 w-full border p-3 outline-none hover:border-0 focus:outline-none customBookingDetails-btn2">Cancel</button>
+                              {/* <button 
+                                    onClick={this.openConfirmBooking.bind(this)} 
+                                    disabled={this.loading} 
+                                    type="button"  
+                                    class="text-center mt-10 w-full border-0 p-3 outline-none focus:outline-none customBookingDetails-btn">Continue Book
+                                  </button>
+                                  <button 
+                                    onClick={this.previousChange.bind(this)}  
+                                    type="button" 
+                                    class="text-center mt-10 w-full border p-3 outline-none hover:border-0 focus:outline-none customBookingDetails-btn2">Cancel
+                                  </button> */}
+                              {!this.loading ? (
+                                <div>
+                                  <button 
+                                    onClick={this.openConfirmBooking.bind(this)} 
+                                    disabled={this.loading} 
+                                    type="button"  
+                                    class="text-center mt-10 w-full border-0 p-3 outline-none focus:outline-none customBookingDetails-btn">Continue Book
+                                  </button>
+                                  <button 
+                                    onClick={this.previousChange.bind(this)}  
+                                    type="button" 
+                                    class="text-center mt-10 w-full border p-3 outline-none hover:border-0 focus:outline-none customBookingDetails-btn2">Cancel
+                                  </button>
+                                </div>
+                              ) : (
+                                <div class=" flex justify-center w-full">
+                                  <div class="flex flex-row rounded-xl space-x-2 shadow-2xl p-4 items-center w-auto">
+                                      <div class=" animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-400"></div>
+                                      <small class="text-midnightblue">Please wait...</small>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           </div>
                         ): null}
