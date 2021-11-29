@@ -443,7 +443,6 @@ watchStateHandler(newValue: any, oldValue: any) {
   }
 
   openDriverDetails() {
-    this.callDriverDetailsApi();
     this.showFormContent = true;
     this.bookingDetails = false;
     this.confirmBooking = false;
@@ -631,54 +630,6 @@ watchStateHandler(newValue: any, oldValue: any) {
     console.log(json);
   }
 
-  callDriverDetailsApi = async () => {
-    let driverDetails: FormData = new FormData();
-
-    driverDetails.append('id', this.cabTicketDetails?.first_ticket?.trip_id);
-
-    let secondDriverDetails: FormData = new FormData();
-    secondDriverDetails.append('id', this.cabTicketDetails?.second_ticket?.trip_id);
-
-    // if (this.globalTrips?.returnDate && this.globalTrips?.returnTime) {
-    //   driverDetails.append('id', this.cabTicketDetails?.first_ticket?.trip_id);
-    // };
-    
-    // Promise.all([
-    //   await fetch(`https://watchoutachan.herokuapp.com/api/drivers_info`,
-    //   {
-    //     method: 'post',
-    //     body: driverDetails,
-    //   }).then(res => res.json()),
-    //   await fetch(`https://watchoutachan.herokuapp.com/api/drivers_info`,
-    //   {
-    //     method: 'post',
-    //     body: secondDriverDetails,
-    //   }).then(res => res.json()),
-    // ]).then(([driverDtl, driverDtl2]) => {
-    //   console.log(driverDtl);
-    //   console.log(driverDtl2);
-
-    //   this.driverDetailsState = driverDtl;
-    //   this.secondDriverDetailsState = driverDtl2;
-    // }).catch((err) => {
-    //   console.log(err);
-    // });
-    // handleErrors(response);
-    
-
-    // const response = await fetch(`https://watchoutachan.herokuapp.com/api/drivers_info`,
-    //   {
-    //     method: 'post',
-    //     body: driverDetails,
-    //   }
-    // );
-    // handleErrors(response);
-
-    // let json = await response.json();
-    // this.driverDetailsState = json;
-
-    // destinationAddressErrMsg
-  };
 
   render() {
     console.log(this.googleApiLocation);
@@ -867,7 +818,6 @@ watchStateHandler(newValue: any, oldValue: any) {
       let oneWayContent = <slot/>
       if(this.showTripsContent) {
         oneWayContent = (
-          // <one-way-content onBookChange={this.onBookChange.bind(this)} ></one-way-content>
           <form class="px-4 pt-4 pb-10">
             <div class="flex flex-col sm:flex-row sm:justify-between sm:space-x-7 space-y-6 sm:space-y-0 ">
               <div class="sm:w-3/6">

@@ -81,7 +81,6 @@ export declare class AchhanModal {
   callEstimatedDataApi: () => Promise<void>;
   callConfirmBookingApi: () => Promise<void>;
   sendTicketApi: () => Promise<void>;
-  callDriverDetailsApi: () => Promise<void>;
   render(): any;
 }
 export {};
